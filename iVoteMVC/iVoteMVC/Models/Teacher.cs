@@ -13,6 +13,6 @@ namespace iVoteMVC.Models
         public string password { get; set; }
         public string email { get; set; }
 
-        public ICollection<Session> sessions { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

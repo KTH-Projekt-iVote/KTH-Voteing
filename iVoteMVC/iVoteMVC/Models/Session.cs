@@ -15,6 +15,6 @@ namespace iVoteMVC.Models
         public DateTime dateModifed { get; set; }
         public bool published { get; set; }
 
-        public ICollection<Question> questions { get; set; }    
+        public virtual ICollection<Question> Questions { get; set; }    
     }
 }

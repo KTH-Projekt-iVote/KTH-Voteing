@@ -41,9 +41,43 @@
         <dd>
             @Html.DisplayFor(model => model.email)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.sessions)
-        </dt>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Sessions)
+        </dt>*@
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Sessions</th>
+                    <th>Questions</th>
+                </tr>
+                @foreach (var session in Model.Sessions)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => session.name)
+                        </td>
+                        <td>
+                            @foreach (var question in session.Questions)
+                            {
+                                <table class="table">
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => question.text)</td>
+                                        <td>
+                                            @foreach (var answer in question.Answers)
+                                            {
+                                                @Html.DisplayFor(modelItem => answer.text)
+                                                <br />
+                                            }
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
 
     </dl>
 </div>

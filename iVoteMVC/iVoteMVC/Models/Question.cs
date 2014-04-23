@@ -11,7 +11,7 @@ namespace iVoteMVC.Models
         public int SessionID { get; set; }
         public string text { get; set; }
 
-        public ICollection<Answer> answers { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
 
     }
 }
