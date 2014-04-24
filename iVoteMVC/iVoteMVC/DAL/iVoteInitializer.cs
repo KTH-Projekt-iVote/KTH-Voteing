@@ -7,6 +7,9 @@ using System.Data.Entity;
 
 namespace iVoteMVC.DAL
 {
+
+ 
+
     public class iVoteInitializer : System.Data.Entity.DropCreateDatabaseAlways<iVoteContext>
     {
         protected override void Seed(iVoteContext context)
@@ -48,6 +51,7 @@ namespace iVoteMVC.DAL
             };
 
             answers.ForEach(s => context.Answers.Add(s));
+
             context.SaveChanges();
         }
     }
