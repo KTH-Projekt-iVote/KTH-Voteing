@@ -14,5 +14,8 @@ namespace iVoteMVC.Models
         public string email { get; set; }
 
         public virtual ICollection<Session> Sessions { get; set; }
+        /*
+         * Lista
+         * */
     }
 }
