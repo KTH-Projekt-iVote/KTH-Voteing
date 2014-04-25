@@ -54,7 +54,10 @@ namespace iVoteMVC.Controllers
         public ActionResult Create(Teacher teacher)
         {
 
-            teacher.ID = db.Teachers.Count() + 1;
+            Console.WriteLine();
+            int teachCount;
+            teachCount = db.Teachers.Count();
+            teacher.ID = teachCount + 1;
             if (ModelState.IsValid)
             {
                 db.Teachers.Add(teacher);
