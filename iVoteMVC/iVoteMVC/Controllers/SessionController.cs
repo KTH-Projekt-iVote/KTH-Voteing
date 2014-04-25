@@ -37,7 +37,7 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Session/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             return View();
         }
@@ -47,8 +47,9 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,TeacherID,name,description,published")] Session session)
+        public ActionResult Create(int id, [Bind(Include="ID,name,description,published")] Session session)
         {
+            session.TeacherID = id;
             session.dateCreated = System.DateTime.Now;
             session.dateModifed = System.DateTime.Now;
 
@@ -56,7 +57,7 @@ namespace iVoteMVC.Controllers
             {
                 db.Sessions.Add(session);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + session.TeacherID, "Teacher");
             }
 
             return View(session);
@@ -91,7 +92,7 @@ namespace iVoteMVC.Controllers
             {
                 db.Entry(session).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + session.TeacherID, "Teacher");
             }
             return View(session);
         }
@@ -119,7 +120,7 @@ namespace iVoteMVC.Controllers
             Session session = db.Sessions.Find(id);
             db.Sessions.Remove(session);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details/" + session.TeacherID, "Teacher");
         }
 
         protected override void Dispose(bool disposing)

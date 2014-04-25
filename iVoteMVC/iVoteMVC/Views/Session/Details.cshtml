@@ -10,13 +10,6 @@
     <h4>Session</h4>
 	<hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TeacherID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TeacherID)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.name)
@@ -33,7 +26,7 @@
         <dd>
             @Html.DisplayFor(model => model.description)
         </dd>
-
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.dateCreated)
         </dt>
@@ -49,13 +42,20 @@
         <dd>
             @Html.DisplayFor(model => model.dateModifed)
         </dd>
-
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.published)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.published)
+            @*@Html.DisplayFor(model => model.published)*@
+            @if (Model.published == true) { Write("Yes"); }
+            else { Write("No"); }
+                
+        </dd>
+        <dd>
+            <br />
+            @Html.ActionLink("Add Question", "Create", "Question", new { id = Model.ID }, null)
         </dd>
         <br />
         <dt>@Html.DisplayNameFor(model => model.Questions)</dt>
@@ -74,6 +74,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => question.NoOfAnswers)
                         </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Question", new { id = question.ID }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Question", new { id = question.ID }, null)
+                        </td>
                     </tr>
                 }
             </table>
@@ -83,5 +87,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details/" + Model.TeacherID, "Teacher")
 </p>

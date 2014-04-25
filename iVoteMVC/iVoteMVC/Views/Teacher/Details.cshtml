@@ -34,6 +34,10 @@
             @Html.DisplayFor(model => model.email)
         </dd>
         <br />
+        <dd>
+            @Html.ActionLink("Add Session", "Create", "Session", new { id = Model.ID }, null)
+        </dd>
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.Sessions)
         </dt>
@@ -63,6 +67,10 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => session.NoOfQuestions)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Session", new { id = session.ID }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Session", new { id = session.ID }, null)
                         </td>
                     </tr>
                 }

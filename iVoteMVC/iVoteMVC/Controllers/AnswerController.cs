@@ -11,110 +11,110 @@ using iVoteMVC.DAL;
 
 namespace iVoteMVC.Controllers
 {
-    public class QuestionController : Controller
+    public class AnswerController : Controller
     {
         private iVoteContext db = new iVoteContext();
 
-        // GET: /Question/
+        // GET: /Answer/
         public ActionResult Index()
         {
-            return View(db.Questions.ToList());
+            return View(db.Answers.ToList());
         }
 
-        // GET: /Question/Details/5
+        // GET: /Answer/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            Answer answer = db.Answers.Find(id);
+            if (answer == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(answer);
         }
 
-        // GET: /Question/Create
+        // GET: /Answer/Create
         public ActionResult Create(int id)
         {
             return View();
         }
 
-        // POST: /Question/Create
+        // POST: /Answer/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id, [Bind(Include="text")] Question question)
+        public ActionResult Create(int id, [Bind(Include="ID,voteCount,text")] Answer answer)
         {
-            question.SessionID = id;
+            answer.QuestionID = id;
             if (ModelState.IsValid)
             {
-                db.Questions.Add(question);
+                db.Answers.Add(answer);
                 db.SaveChanges();
-                return RedirectToAction("Details/" + question.SessionID, "Session");
+                return RedirectToAction("Details/"+id, "Question");
             }
 
-            return View(question);
+            return View(answer);
         }
 
-        // GET: /Question/Edit/5
+        // GET: /Answer/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            Answer answer = db.Answers.Find(id);
+            if (answer == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(answer);
         }
 
-        // POST: /Question/Edit/5
+        // POST: /Answer/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SessionID,text")] Question question)
+        public ActionResult Edit([Bind(Include="ID,QuestionID,voteCount,text")] Answer answer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(question).State = EntityState.Modified;
+                db.Entry(answer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details/" + question.SessionID, "Session");
+                return RedirectToAction("Details/"+answer.QuestionID, "Question");
             }
-            return View(question);
+            return View();
         }
 
-        // GET: /Question/Delete/5
+        // GET: /Answer/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            Answer answer = db.Answers.Find(id);
+            if (answer == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(answer);
         }
 
-        // POST: /Question/Delete/5
+        // POST: /Answer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Question question = db.Questions.Find(id);
-            db.Questions.Remove(question);
+            Answer answer = db.Answers.Find(id);
+            db.Answers.Remove(answer);
             db.SaveChanges();
-            return RedirectToAction("Details/" + question.SessionID, "Session");
+            return RedirectToAction("Details/"+answer.QuestionID, "Question");
         }
 
         protected override void Dispose(bool disposing)

@@ -11,20 +11,15 @@
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SessionID)
-        </dt>
-
-        <dd>
-            @*@Html.DisplayFor(model => model.SessionID)*@
-            @Html.ActionLink("Session", "Details/" + Model.SessionID, "Session")
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.text)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.text)
+        </dd>
+        <dd>
+            <br />
+            @Html.ActionLink("Add Answer", "Create", "Answer", new { id = Model.ID }, null)
         </dd>
         <br />
         <dt>
@@ -46,6 +41,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => Answer.voteCount)
                         </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = Answer.ID }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Answer", new { id = Answer.ID }, null)
+                        </td>
                     </tr>
                 }
             </table>
@@ -55,5 +54,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Back to List", "Index") |*@
+    @Html.ActionLink("Back to Session", "Details/" + Model.SessionID, "Session")
 </p>

@@ -1,4 +1,4 @@
-﻿@model iVoteMVC.Models.Question
+﻿@model iVoteMVC.Models.Answer
 
 @{
     ViewBag.Title = "Edit";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Question</h4>
+        <h4>Answer</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.ID)
