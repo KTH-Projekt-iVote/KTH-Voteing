@@ -33,13 +33,17 @@
         <dd>
             @Html.DisplayFor(model => model.email)
         </dd>
-        @*<dt>
+        <br />
+        <dt>
             @Html.DisplayNameFor(model => model.Sessions)
-        </dt>*@
+        </dt>
         <dd>
             <table class="table">
                 <tr>
-                    <th>Sessions</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Modified</th>
                     <th>Questions</th>
                 </tr>
                 @foreach (var session in Model.Sessions)
@@ -49,22 +53,16 @@
                             @Html.ActionLink(session.name, "Details/"+session.ID, "Session")
                         </td>
                         <td>
-                            @foreach (var question in session.Questions)
-                            {
-                                <table class="table">
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => question.text)</td>
-                                        <td>
-                                            @foreach (var answer in question.Answers)
-                                            {
-                                                @Html.DisplayFor(modelItem => answer.text)
-                                                <br />
-                                            }
-                                        </td>
-                                    </tr>
-                                    
-                                </table>
-                            }
+                            @Html.DisplayFor(modelItem => session.description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => session.dateCreated)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => session.dateModifed)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => session.NoOfQuestions)
                         </td>
                     </tr>
                 }

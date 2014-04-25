@@ -47,8 +47,11 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
+        public ActionResult Create([Bind(Include="ID,TeacherID,name,description,published")] Session session)
         {
+            session.dateCreated = System.DateTime.Now;
+            session.dateModifed = System.DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Sessions.Add(session);
@@ -81,6 +84,9 @@ namespace iVoteMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
         {
+
+            session.dateModifed = System.DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Entry(session).State = EntityState.Modified;

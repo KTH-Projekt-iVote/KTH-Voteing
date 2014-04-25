@@ -57,6 +57,27 @@
         <dd>
             @Html.DisplayFor(model => model.published)
         </dd>
+        <br />
+        <dt>@Html.DisplayNameFor(model => model.Questions)</dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Question</th>
+                    <th>Answers</th>
+                </tr>
+                @foreach (var question in Model.Questions)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(question.text, "Details/" + question.ID, "Question")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => question.NoOfAnswers)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
 
     </dl>
 </div>

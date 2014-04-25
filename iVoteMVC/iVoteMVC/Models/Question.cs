@@ -18,6 +18,15 @@ namespace iVoteMVC.Models
         [StringLength(160, MinimumLength=1)]
         public string text { get; set; }
 
+        [Display(Name="Answers")]
+        public int NoOfAnswers
+        {
+            get
+            {
+                return Answers.Count();
+            }
+        }
+
         public virtual ICollection<Answer> Answers { get; set; }
 
     }

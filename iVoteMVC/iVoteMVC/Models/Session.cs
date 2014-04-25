@@ -34,6 +34,15 @@ namespace iVoteMVC.Models
         [Display(Name="Published")]
         public bool published { get; set; }
 
+        [Display(Name="Questions")]
+        public int NoOfQuestions
+        {
+            get
+            {
+                return Questions.Count();
+            }
+        }
+
 
         public virtual ICollection<Question> Questions { get; set; }    
 
