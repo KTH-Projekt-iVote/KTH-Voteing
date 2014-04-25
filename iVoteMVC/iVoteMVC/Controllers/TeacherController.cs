@@ -58,7 +58,7 @@ namespace iVoteMVC.Controllers
 
             return View(teacher);
         }
-
+ 
         // GET: /Teacher/Edit/5
         public ActionResult Edit(int? id)
         {
