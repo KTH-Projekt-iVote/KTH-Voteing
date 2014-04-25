@@ -39,6 +39,7 @@ namespace iVoteMVC.Models
         {
             get
             {
+                if (Questions == null) return 0;
                 return Questions.Count();
             }
         }

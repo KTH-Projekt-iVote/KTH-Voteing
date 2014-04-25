@@ -162,6 +162,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\iVoteContext.cs" />
@@ -235,6 +236,11 @@
     <Content Include="Views\Session\Details.cshtml" />
     <Content Include="Views\Session\Edit.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
+    <Content Include="Views\Question\Create.cshtml" />
+    <Content Include="Views\Question\Delete.cshtml" />
+    <Content Include="Views\Question\Details.cshtml" />
+    <Content Include="Views\Question\Edit.cshtml" />
+    <Content Include="Views\Question\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
