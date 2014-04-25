@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using iVoteMVC.Models;
+using iVoteMVC.Controllers;
 
 namespace iVoteMVC.Controllers
 {
@@ -83,6 +84,17 @@ namespace iVoteMVC.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
+                    TeacherController teacherController = new TeacherController();
+                
+                    Teacher teacher = new Teacher();
+                    teacher.email = model.UserName;
+                    teacher.name = model.UserName;
+                    teacher.username = model.UserName;
+                    teacher.password = model.Password;
+                    
+                    //string text = "[Bind(Include = "+3+","+ model.UserName+","+model.UserName+","+model.Password+","+ model.UserName +")]";
+                    
+                   teacherController.Create(teacher);
                     return RedirectToAction("Index", "Home");
                 }
                 else

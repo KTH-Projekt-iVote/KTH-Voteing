@@ -13,9 +13,10 @@ namespace iVoteMVC.Controllers
 {
     public class TeacherController : Controller
     {
-        private iVoteContext db = new iVoteContext();
+       //private iVoteContext db = new iVoteContext();
 
-        // GET: /Teacher/
+       private iVoteContext db = new iVoteContext();
+
         public ActionResult Index()
         {
             return View(db.Teachers.ToList());
@@ -42,13 +43,18 @@ namespace iVoteMVC.Controllers
             return View();
         }
 
+
+
         // POST: /Teacher/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,name,username,password,email")] Teacher teacher)
+       // public ActionResult Create([Bind(Include="ID,name,username,password,email")] Teacher teacher)
+        public ActionResult Create(Teacher teacher)
         {
+
+            teacher.ID = db.Teachers.Count() + 1;
             if (ModelState.IsValid)
             {
                 db.Teachers.Add(teacher);
