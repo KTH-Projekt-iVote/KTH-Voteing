@@ -27,14 +27,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.password)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.email)
         </dt>
 
@@ -54,7 +46,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => session.name)
+                            @Html.ActionLink(session.name, "Details/"+session.ID, "Session")
                         </td>
                         <td>
                             @foreach (var question in session.Questions)
