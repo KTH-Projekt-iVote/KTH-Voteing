@@ -11,107 +11,107 @@ using iVoteMVC.DAL;
 
 namespace iVoteMVC.Controllers
 {
-    public class TeacherController : Controller
+    public class SessionController : Controller
     {
         private iVoteContext db = new iVoteContext();
 
-        // GET: /Teacher/
+        // GET: /Session/
         public ActionResult Index()
         {
-            return View(db.Teachers.ToList());
+            return View(db.Sessions.ToList());
         }
 
-        // GET: /Teacher/Details/5
+        // GET: /Session/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teacher teacher = db.Teachers.Find(id);
-            if (teacher == null)
+            Session session = db.Sessions.Find(id);
+            if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(teacher);
+            return View(session);
         }
 
-        // GET: /Teacher/Create
+        // GET: /Session/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Teacher/Create
+        // POST: /Session/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,name,username,password,email")] Teacher teacher)
+        public ActionResult Create([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
         {
             if (ModelState.IsValid)
             {
-                db.Teachers.Add(teacher);
+                db.Sessions.Add(session);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(teacher);
+            return View(session);
         }
- 
-        // GET: /Teacher/Edit/5
+
+        // GET: /Session/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teacher teacher = db.Teachers.Find(id);
-            if (teacher == null)
+            Session session = db.Sessions.Find(id);
+            if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(teacher);
+            return View(session);
         }
 
-        // POST: /Teacher/Edit/5
+        // POST: /Session/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,name,username,password,email")] Teacher teacher)
+        public ActionResult Edit([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(teacher).State = EntityState.Modified;
+                db.Entry(session).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(teacher);
+            return View(session);
         }
 
-        // GET: /Teacher/Delete/5
+        // GET: /Session/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teacher teacher = db.Teachers.Find(id);
-            if (teacher == null)
+            Session session = db.Sessions.Find(id);
+            if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(teacher);
+            return View(session);
         }
 
-        // POST: /Teacher/Delete/5
+        // POST: /Session/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Teacher teacher = db.Teachers.Find(id);
-            db.Teachers.Remove(teacher);
+            Session session = db.Sessions.Find(id);
+            db.Sessions.Remove(session);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

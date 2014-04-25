@@ -52,10 +52,10 @@
                 </tr>
                 @foreach (var session in Model.Sessions)
                 {
+                    
+                    
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => session.name)
-                        </td>
+
                         <td>
                             @foreach (var question in session.Questions)
                             {
