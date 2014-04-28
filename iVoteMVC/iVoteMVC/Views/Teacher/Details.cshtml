@@ -35,9 +35,18 @@
         </dd>
         <br />
         <dd>
-            @Html.ActionLink("Add Session", "Create", "Session", new { id = Model.ID }, null)
+            @using (Html.BeginForm())
+            {
+                <p>
+                    @Html.TextBox("SearchTerm")
+                    <input type="submit" value="Filter" />
+                </p>
+            } 
         </dd>
         <br />
+        <dd>
+            @Html.ActionLink("Add Session", "Create", "Session", new { id = Model.ID }, null)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Sessions)
         </dt>
@@ -50,7 +59,8 @@
                     <th>Modified</th>
                     <th>Questions</th>
                 </tr>
-                @foreach (var session in Model.Sessions)
+
+                @foreach (var session in Model.Sessions.Where(s => s.name.Contains(@Html.ViewBag.searchTerm) || s.description.Contains(@Html.ViewBag.searchTerm)))
                 {
                     <tr>
                         <td>

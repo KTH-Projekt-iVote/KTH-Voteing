@@ -23,12 +23,18 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Teacher/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string searchTerm)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            if (!String.IsNullOrEmpty(searchTerm))
+                @ViewBag.searchTerm = searchTerm;
+            else
+                @ViewBag.searchTerm = "";
+
             Teacher teacher = db.Teachers.Find(id);
             if (teacher == null)
             {
