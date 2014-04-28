@@ -91,9 +91,7 @@ namespace iVoteMVC.Controllers
                     teacher.name = model.UserName;
                     teacher.username = model.UserName;
                     teacher.password = model.Password;
-                    
-                    //string text = "[Bind(Include = "+3+","+ model.UserName+","+model.UserName+","+model.Password+","+ model.UserName +")]";
-                    
+              
                    teacherController.Create(teacher);
                     return RedirectToAction("Index", "Home");
                 }
