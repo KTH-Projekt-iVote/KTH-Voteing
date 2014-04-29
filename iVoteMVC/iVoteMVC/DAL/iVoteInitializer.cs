@@ -50,6 +50,7 @@ namespace iVoteMVC.DAL
             var answers = new List<Answer>{
                 new Answer{QuestionID=1, text="answer1.1.1", voteCount=7},
                 new Answer{QuestionID=1, text="answer1.1.2", voteCount=2},
+
                 new Answer{QuestionID=1, text="answer1.1.3", voteCount=4},
 
                 new Answer{QuestionID=2, text="answer1.2.1", voteCount=4},
