@@ -10,7 +10,7 @@ namespace iVoteMVC.DAL
 
  
 
-    public class iVoteInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<iVoteContext>
+    public class iVoteInitializer : System.Data.Entity.DropCreateDatabaseAlways<iVoteContext>
     {
         protected override void Seed(iVoteContext context)
         {
@@ -48,19 +48,19 @@ namespace iVoteMVC.DAL
             context.SaveChanges();
 
             var answers = new List<Answer>{
-                new Answer{QuestionID=1, text="answer1.1.1"},
-                new Answer{QuestionID=1, text="answer1.1.2"},
-                new Answer{QuestionID=1, text="answer1.1.3"},
+                new Answer{QuestionID=1, text="answer1.1.1", voteCount=7},
+                new Answer{QuestionID=1, text="answer1.1.2", voteCount=2},
+                new Answer{QuestionID=1, text="answer1.1.3", voteCount=3},
 
-                new Answer{QuestionID=2, text="answer1.2.1"},
-                new Answer{QuestionID=2, text="answer1.2.2"},
+                new Answer{QuestionID=2, text="answer1.2.1", voteCount=2},
+                new Answer{QuestionID=2, text="answer1.2.2", voteCount=2},
 
-                new Answer{QuestionID=3, text="answer2.1.1"},
+                new Answer{QuestionID=3, text="answer2.1.1", voteCount=2},
 
-                new Answer{QuestionID=4, text="answer1.1.1"},
-                new Answer{QuestionID=4, text="answer1.1.2"},
+                new Answer{QuestionID=4, text="answer1.1.1", voteCount=1},
+                new Answer{QuestionID=4, text="answer1.1.2", voteCount=3},
 
-                new Answer{QuestionID=5, text="answer2.1.1"},
+                new Answer{QuestionID=5, text="answer2.1.1", voteCount=2},
             };
 
             answers.ForEach(s => context.Answers.Add(s));
