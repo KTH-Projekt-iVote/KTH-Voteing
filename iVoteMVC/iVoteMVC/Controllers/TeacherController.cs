@@ -23,8 +23,12 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Teacher/Details/5
-        public ActionResult Details(int? id, string searchTerm)
+        public ActionResult Details(int? id, string searchTerm, string sortOrder)
         {
+
+            @ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            @ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

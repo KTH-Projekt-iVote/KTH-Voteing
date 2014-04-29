@@ -53,14 +53,40 @@
         <dd>
             <table class="table">
                 <tr>
-                    <th>Name</th>
+                    @*<th>Name</th>*@
+                    <th>@Html.ActionLink("Name", "Details", new { id = Model.ID ,sortOrder = ViewBag.NameSortParm })</th>
                     <th>Description</th>
-                    <th>Created</th>
+                    @*<th>Created</th>*@
+                    <th>@Html.ActionLink("Created", "Details", new { id = Model.ID, sortOrder = ViewBag.DateSortParm })</th>
                     <th>Modified</th>
                     <th>Questions</th>
                 </tr>
 
-                @foreach (var session in Model.Sessions.Where(s => s.name.Contains(@Html.ViewBag.searchTerm) || s.description.Contains(@Html.ViewBag.searchTerm)))
+                @{
+                    var sessions = Model.Sessions.Where(s => s.name.Contains(@Html.ViewBag.searchTerm) || s.description.Contains(@Html.ViewBag.searchTerm));
+                    string sortOrder = Html.ViewBag.sortOrder;
+
+                    Write(sortOrder);
+                        
+                    switch (sortOrder)
+                    {
+                      case "name_desc":
+                         sessions = sessions.OrderByDescending(s => s.name);
+                         break;
+                      case "Date":
+                         sessions = sessions.OrderBy(s => s.dateCreated);
+                         break;
+                      case "date_desc":
+                         sessions = sessions.OrderByDescending(s => s.dateCreated);
+                         break;
+                      default:
+                         sessions = sessions.OrderBy(s => s.name);
+                         break;
+                    }
+                        
+                }
+                @*@foreach (var session in Model.Sessions.Where(s => s.name.Contains(@Html.ViewBag.searchTerm) || s.description.Contains(@Html.ViewBag.searchTerm)))*@
+                @foreach(var session in sessions)
                 {
                     <tr>
                         <td>
