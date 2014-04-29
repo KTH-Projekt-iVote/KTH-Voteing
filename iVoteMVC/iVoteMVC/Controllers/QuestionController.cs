@@ -39,6 +39,7 @@ namespace iVoteMVC.Controllers
         // GET: /Question/Create
         public ActionResult Create(int id)
         {
+            @ViewBag.sessionID = id;
             return View();
         }
 

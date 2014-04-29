@@ -42,7 +42,7 @@
 
 <div>
     @*@Html.ActionLink("Back to List", "Index")*@
-    @Html.ActionLink("Back to List", "Details/" + Model.SessionID, "Session")
+    @Html.ActionLink("Back to List", "Details", "Session", new { id = @Html.ViewBag.sessionID }, null)
 </div>
 
 @section Scripts {

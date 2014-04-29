@@ -39,6 +39,7 @@ namespace iVoteMVC.Controllers
         // GET: /Session/Create
         public ActionResult Create(int id)
         {
+            @ViewBag.teacherID = id;
             return View();
         }
 
@@ -52,6 +53,16 @@ namespace iVoteMVC.Controllers
             session.TeacherID = id;
             session.dateCreated = System.DateTime.Now;
             session.dateModifed = System.DateTime.Now;
+
+            if (session.published)
+            {
+                Random random = new Random();
+                string pin = "";
+                for (int i = 0; i < 4; i++)
+                    pin += random.Next(0, 10);
+
+                session.PIN = pin;
+            }
 
             if (ModelState.IsValid)
             {
@@ -86,7 +97,14 @@ namespace iVoteMVC.Controllers
         public ActionResult Edit([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
         {
 
-            session.dateModifed = System.DateTime.Now;
+            //session.dateModifed = System.DateTime.Now;
+            if (session.published)
+            {
+                Random random = new Random();
+                string pin = "";
+                for (int i = 0; i < 4; i++)
+                    pin += "" + random.Next(0,10);
+            }
 
             if (ModelState.IsValid)
             {

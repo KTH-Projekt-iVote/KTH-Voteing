@@ -54,10 +54,10 @@
             <table class="table">
                 <tr>
                     @*<th>Name</th>*@
-                    <th>@Html.ActionLink("Name", "Details", new { id = Model.ID ,sortOrder = ViewBag.NameSortParm })</th>
+                    <th>@Html.ActionLink("Name", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.NameSortParm })</th>
                     <th>Description</th>
                     @*<th>Created</th>*@
-                    <th>@Html.ActionLink("Created", "Details", new { id = Model.ID, sortOrder = ViewBag.DateSortParm })</th>
+                    <th>@Html.ActionLink("Created", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.DateSortParm })</th>
                     <th>Modified</th>
                     <th>Questions</th>
                 </tr>
@@ -90,7 +90,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(session.name, "Details/"+session.ID, "Session")
+                            @Html.ActionLink(session.name, "Details", "Session", new { id = session.ID }, null)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => session.description)

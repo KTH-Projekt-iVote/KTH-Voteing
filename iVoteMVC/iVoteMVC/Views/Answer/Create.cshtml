@@ -43,7 +43,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Question", "Details/" + Model.QuestionID, "Question")
+    @Html.ActionLink("Back to Question", "Details", "Question", new { id = @Html.ViewBag.questionID }, null)
 </div>
 
 @section Scripts {

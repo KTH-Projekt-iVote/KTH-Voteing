@@ -34,6 +34,8 @@ namespace iVoteMVC.Models
         [Display(Name="Published")]
         public bool published { get; set; }
 
+        public string PIN { get; set; }
+
         [Display(Name="Questions")]
         public int NoOfQuestions
         {

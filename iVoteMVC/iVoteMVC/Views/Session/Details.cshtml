@@ -49,7 +49,7 @@
 
         <dd>
             @*@Html.DisplayFor(model => model.published)*@
-            @if (Model.published == true) { Write("Yes"); }
+            @if (Model.published == true) { Write("Yes, PIN: " + Model.PIN); }
             else { Write("No"); }
                 
         </dd>
