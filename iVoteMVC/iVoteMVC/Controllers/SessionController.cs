@@ -94,10 +94,13 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,TeacherID,name,description,dateCreated,dateModifed,published")] Session session)
+        public ActionResult Edit(int teacherID, [Bind(Include="ID,TeacherID,name,description,published")] Session session)
         {
 
-            //session.dateModifed = System.DateTime.Now;
+            session.TeacherID = teacherID;
+            session.dateModifed = System.DateTime.Now;
+            session.dateCreated = System.DateTime.Now;
+
             if (session.published)
             {
                 Random random = new Random();

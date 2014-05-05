@@ -55,7 +55,7 @@
         </dd>
         <dd>
             <br />
-            @Html.ActionLink("Add Question", "Create", "Question", new { id = Model.ID }, null)
+            @Html.ActionLink("Add Question", "Create", "Question", new { SessionID = Model.ID }, null)
         </dd>
         <br />
         <dt>@Html.DisplayNameFor(model => model.Questions)</dt>
@@ -75,16 +75,10 @@
                             @Html.DisplayFor(modelItem => question.NoOfAnswers)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", "Question", new { id = question.ID }, null) |
+                            @Html.ActionLink("Edit", "Edit", "Question", new { id = question.ID, SessionID = question.SessionID }, null) |
                             @Html.ActionLink("Delete", "Delete", "Question", new { id = question.ID }, null)
                         </td>
-                    </tr>
-                    
-                    
-
-                    
-                    
-                    
+                    </tr>   
                 }
             </table>
         </dd>

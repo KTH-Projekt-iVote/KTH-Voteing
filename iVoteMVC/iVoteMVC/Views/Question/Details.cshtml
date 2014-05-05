@@ -43,7 +43,7 @@
                             @Html.DisplayFor(modelItem => Answer.voteCount)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = Answer.ID }, null) |
+                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = Answer.ID, QuestionID = Answer.QuestionID }, null) |
                             @Html.ActionLink("Delete", "Delete", "Answer", new { id = Answer.ID }, null)
                         </td>
                     </tr>
