@@ -105,7 +105,7 @@
                             @Html.DisplayFor(modelItem => session.NoOfQuestions)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", "Session", new { id = session.ID }, null) |
+                            @Html.ActionLink("Edit", "Edit", "Session", new { id = session.ID, teacherID = session.TeacherID }, null) |
                             @Html.ActionLink("Delete", "Delete", "Session", new { id = session.ID }, null)
                         </td>
                     </tr>

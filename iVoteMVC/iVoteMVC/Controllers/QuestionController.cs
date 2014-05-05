@@ -37,9 +37,8 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Question/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(int SessionID)
         {
-            @ViewBag.sessionID = id;
             return View();
         }
 
@@ -48,9 +47,9 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id, [Bind(Include="text")] Question question)
+        public ActionResult Create(int SessionID, [Bind(Include="text, voteCount")] Question question)
         {
-            question.SessionID = id;
+            question.SessionID = SessionID;
             if (ModelState.IsValid)
             {
                 db.Questions.Add(question);
@@ -81,8 +80,10 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SessionID,text")] Question question)
+        public ActionResult Edit(int SessionID, [Bind(Include="ID,text")] Question question)
         {
+            question.SessionID = SessionID;
+
             if (ModelState.IsValid)
             {
                 db.Entry(question).State = EntityState.Modified;
