@@ -38,7 +38,7 @@
             @using (Html.BeginForm())
             {
                 <p>
-                    @Html.TextBox("SearchTerm")
+                    @Html.TextBox("SearchTerm", ViewBag.currentFilter as string)
                     <input type="submit" value="Filter" />
                 </p>
             } 
@@ -54,10 +54,10 @@
             <table class="table">
                 <tr>
                     @*<th>Name</th>*@
-                    <th>@Html.ActionLink("Name", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.NameSortParm })</th>
+                    <th>@Html.ActionLink("Name", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
                     <th>Description</th>
                     @*<th>Created</th>*@
-                    <th>@Html.ActionLink("Created", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.DateSortParm })</th>
+                    <th>@Html.ActionLink("Created", "Details", new { id = Model.ID, sortOrder = @Html.ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</th>
                     <th>Modified</th>
                     <th>Questions</th>
                 </tr>
@@ -65,8 +65,6 @@
                 @{
                     var sessions = Model.Sessions.Where(s => s.name.Contains(@Html.ViewBag.searchTerm) || s.description.Contains(@Html.ViewBag.searchTerm));
                     string sortOrder = Html.ViewBag.sortOrder;
-
-                    Write(sortOrder);
                         
                     switch (sortOrder)
                     {

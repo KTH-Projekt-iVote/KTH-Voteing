@@ -23,11 +23,14 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Teacher/Details/5
-        public ActionResult Details(int? id, string searchTerm, string sortOrder)
+        public ActionResult Details(int? id, string currentFilter, string searchTerm, string sortOrder)
         {
 
+            @ViewBag.currentSort = sortOrder;
             @ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             @ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            @ViewBag.sortOrder = sortOrder;
+            @ViewBag.currentFilter = searchTerm;
 
             if (id == null)
             {
