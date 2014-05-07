@@ -85,16 +85,16 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind(Include = "ID,voteCount,text")] Answer answer)
+        public ActionResult Edit(int questionID, [Bind(Include = "ID,voteCount,text")] Answer answer)
         {
-            answer.QuestionID = id;
+            answer.QuestionID = questionID;
 
             if (ModelState.IsValid)
             {
                 db.Entry(answer).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Details/"+answer.QuestionID, "Question");
-                return RedirectToAction("Details/" + id, "Question");
+                return RedirectToAction("Details/" + questionID, "Question");
             }
             return View();
         }

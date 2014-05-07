@@ -86,7 +86,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, teacherID = Model.TeacherID }) |
     @Html.ActionLink("Back to List", "Details/" + Model.TeacherID, "Teacher")
 </p>
 
