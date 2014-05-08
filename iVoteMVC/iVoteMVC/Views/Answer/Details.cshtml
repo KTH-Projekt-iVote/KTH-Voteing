@@ -21,6 +21,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, questionID = Model.QuestionID }) |
     @Html.ActionLink("Back to List", "Details/" + Model.QuestionID, "Question")
 </p>

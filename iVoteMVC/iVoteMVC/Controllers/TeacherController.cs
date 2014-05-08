@@ -8,7 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
+using iVoteMVC.Models;
 
+using Microsoft.AspNet.Identity;
 namespace iVoteMVC.Controllers
 {
     public class TeacherController : Controller
@@ -16,18 +18,26 @@ namespace iVoteMVC.Controllers
        //private iVoteContext db = new iVoteContext();
 
        private iVoteContext db = new iVoteContext();
+       
 
         public ActionResult Index()
         {
-            return View(db.Teachers.ToList());
+
+            string name = User.Identity.GetUserName();
+            return View(db.Teachers.Where(t => t.username.Equals(name)));
+                //return View(db.Teachers.Find(name));
+            //return View(db.Teachers.ToList());
         }
 
         // GET: /Teacher/Details/5
-        public ActionResult Details(int? id, string searchTerm, string sortOrder)
+        public ActionResult Details(int? id, string currentFilter, string searchTerm, string sortOrder)
         {
 
+            @ViewBag.currentSort = sortOrder;
             @ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             @ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            @ViewBag.sortOrder = sortOrder;
+            @ViewBag.currentFilter = searchTerm;
 
             if (id == null)
             {

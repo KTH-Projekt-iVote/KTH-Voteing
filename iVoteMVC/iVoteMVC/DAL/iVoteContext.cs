@@ -18,6 +18,7 @@ namespace iVoteMVC.DAL
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Student> Students { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -25,7 +26,7 @@ namespace iVoteMVC.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public System.Data.Entity.DbSet<iVoteMVC.Models.Student> Students { get; set; }
+       // public System.Data.Entity.DbSet<iVoteMVC.Models.Student> Students { get; set; }
         
     }
 }

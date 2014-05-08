@@ -107,6 +107,7 @@ namespace iVoteMVC.Controllers
                 string pin = "";
                 for (int i = 0; i < 4; i++)
                     pin += "" + random.Next(0,10);
+                session.PIN = pin;
             }
 
             if (ModelState.IsValid)

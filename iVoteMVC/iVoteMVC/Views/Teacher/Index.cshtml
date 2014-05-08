@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<iVoteMVC.Models.Teacher>
 
+
 @{
     ViewBag.Title = "Teacher";
 }
@@ -13,10 +14,7 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.username)
-            <form>
-                <input type="radio" name="vehicle" value="Bike">@Model.ElementAt(0).Sessions.ElementAt(0).Questions.ElementAt(0).text<br>
-                <input type="radio" name="vehicle" value="Car">I have a car <br>
-            </form>
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.name)
@@ -28,6 +26,7 @@
     </tr>
 
 @foreach (var item in Model) {
+    
     <tr>
         <td>
             @Html.ActionLink(item.username, "Details", new { id=item.ID})

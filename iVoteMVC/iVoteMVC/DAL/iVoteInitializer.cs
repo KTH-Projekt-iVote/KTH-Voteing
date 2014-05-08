@@ -28,8 +28,8 @@ namespace iVoteMVC.DAL
 
             var sessions = new List<Session>
             {
-                new Session{name="session1", dateCreated=System.DateTime.Now, dateModifed=System.DateTime.Now, description="desc_test", TeacherID=1, published=false},
-                new Session{name="session2", dateCreated=System.DateTime.Now, dateModifed=System.DateTime.Now, description="desc_test", TeacherID=1, published=false},
+                new Session{name="session1", dateCreated=System.DateTime.Now, dateModifed=System.DateTime.Now, description="desc_test", TeacherID=1, published=true, PIN="0000", CurrentQuestionIndex=0},
+                new Session{name="session2", dateCreated=System.DateTime.Now, dateModifed=System.DateTime.Now, description="desc_test", TeacherID=1, published=true, PIN="1111", CurrentQuestionIndex=0},
                 new Session{name="session1", dateCreated=System.DateTime.Now, dateModifed=System.DateTime.Now, description="desc_test", TeacherID=2, published=false}
             };
 

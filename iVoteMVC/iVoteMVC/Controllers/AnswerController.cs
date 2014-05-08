@@ -93,7 +93,8 @@ namespace iVoteMVC.Controllers
             {
                 db.Entry(answer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details/"+answer.QuestionID, "Question");
+                //return RedirectToAction("Details/"+answer.QuestionID, "Question");
+                return RedirectToAction("Details/" + id, "Question");
             }
             return View();
         }

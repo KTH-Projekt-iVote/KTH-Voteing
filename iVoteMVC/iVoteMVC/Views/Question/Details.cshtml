@@ -60,7 +60,7 @@
 
 <p>
     <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, sessionID = Model.SessionID }) |
     @*@Html.ActionLink("Back to List", "Index") |*@
     @Html.ActionLink("Back to Session", "Details/" + Model.SessionID, "Session")
 </p>

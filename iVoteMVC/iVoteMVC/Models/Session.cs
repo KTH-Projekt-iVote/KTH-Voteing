@@ -35,6 +35,7 @@ namespace iVoteMVC.Models
         public bool published { get; set; }
 
         public string PIN { get; set; }
+        public int CurrentQuestionIndex { get; set; }
 
         [Display(Name="Questions")]
         public int NoOfQuestions
@@ -46,8 +47,18 @@ namespace iVoteMVC.Models
             }
         }
 
+        public virtual ICollection<Question> Questions { get; set; }
 
-        public virtual ICollection<Question> Questions { get; set; }    
+        public Session()
+        {
+            CurrentQuestionIndex = 0;
+            dateCreated = System.DateTime.Now;
+        }
+
+        public void NextQuestion()
+        {
+            CurrentQuestionIndex++;
+        }
 
     }
 }
