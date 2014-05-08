@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using iVoteMVC.Models;
 using iVoteMVC.Controllers;
+using iVoteMVC.DAL;
 
 namespace iVoteMVC.Controllers
 {
@@ -18,6 +19,7 @@ namespace iVoteMVC.Controllers
     {
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+
         {
         }
 

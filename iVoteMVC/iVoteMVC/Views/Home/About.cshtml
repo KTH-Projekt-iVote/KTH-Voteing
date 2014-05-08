@@ -1,8 +1,33 @@
-﻿@{
+﻿@model IEnumerable<iVoteMVC.Models.Teacher>
+
+@{
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Daniel är faktiskt ganska grym kodare.. :)</p>
-<p>Fast Dennis är fan bättre</p>
+@{
+    var text = "Den stora matematiken";
+    var x = 10;
+    var y = 20;
+    var z = x + y;
+    var i = 0;
+for(i = 0; i < 3; i++){
+    <p>@text <br /> @x + @y = @z </p>
+
+}
+
+
+var questionText = Model.ElementAt(0).Sessions.ElementAt(0).Questions.ElementAt(0).text;
+
+<img src="http://img4.wikia.nocookie.net/__cb20120515073658/naruto/images/0/09/Naruto_newshot.png" width="300 " height="250" />
+    <h6> Fråga 1: <br /> @questionText</h6>
+    i = 0;
+    foreach (var item in Model)
+    {
+         <input type="radio" name="vehicle" value="Car">@item.Sessions.ElementAt(0).Questions.ElementAt(0).Answers.ElementAt(@i).text<br>
+        i++;
+    }
+}
+
+

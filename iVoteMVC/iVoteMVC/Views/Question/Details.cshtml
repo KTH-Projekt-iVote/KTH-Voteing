@@ -43,6 +43,7 @@
                             @Html.DisplayFor(modelItem => Answer.voteCount)
                         </td>
                         <td>
+                     
                             @Html.ActionLink("Edit", "Edit", "Answer", new { id = Answer.ID, QuestionID = Answer.QuestionID }, null) |
                             @Html.ActionLink("Delete", "Delete", "Answer", new { id = Answer.ID }, null)
                         </td>
@@ -74,7 +75,7 @@
     function drawChart() {
 
         var data = new google.visualization.DataTable();
-
+       
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
         @foreach(var item in Model.Answers)

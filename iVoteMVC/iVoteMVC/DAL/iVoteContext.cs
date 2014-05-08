@@ -19,10 +19,13 @@ namespace iVoteMVC.DAL
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<iVoteMVC.Models.Student> Students { get; set; }
         
     }
 }

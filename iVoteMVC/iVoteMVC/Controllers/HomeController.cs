@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iVoteMVC.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,7 +8,10 @@ using System.Web.Mvc;
 namespace iVoteMVC.Controllers
 {
     public class HomeController : Controller
+    
     {
+        private iVoteContext db = new iVoteContext();
+
         public ActionResult Index()
         {
             return View();
@@ -17,7 +21,7 @@ namespace iVoteMVC.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            return View();
+            return View(db.Teachers.ToList());
         }
 
         public ActionResult Contact()
