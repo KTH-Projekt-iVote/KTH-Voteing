@@ -1,11 +1,14 @@
 ﻿using iVoteMVC.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using iVoteMVC.DAL;
 using iVoteMVC.Models;
+using iVoteMVC.DAL;
 
 namespace iVoteMVC.Controllers
 {
@@ -37,15 +40,26 @@ namespace iVoteMVC.Controllers
         {
 
             @ViewBag.pin = pin;
+                
             Student student = new Student(pin);
+            student.Voted = false;
 
-            //if (ModelState.IsValid)
-            //{
-            //    db.Students.Add(student);
-            //    db.SaveChanges();
-            //}
+            if (ModelState.IsValid)
+            {
+                db.Students.Add(student);
+                db.SaveChanges();
+            }
 
             return View(student);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
