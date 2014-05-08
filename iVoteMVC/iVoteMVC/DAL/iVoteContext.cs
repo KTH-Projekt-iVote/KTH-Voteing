@@ -18,6 +18,7 @@ namespace iVoteMVC.DAL
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Student> Students { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

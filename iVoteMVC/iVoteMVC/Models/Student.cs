@@ -9,24 +9,18 @@ namespace iVoteMVC.Models
     public class Student
     {
         public int ID { get; set; }
-        public Session session { get; set; }
+        public virtual Session session { get; set; }
 
         public bool Voted { get; set; }
-        public Question question
+        public Question currentQuestion
         {
             get
             {
-                return question;
+                return session.Questions.ElementAt(session.CurrentQuestionIndex);
             }
-            set
-            {
-                Question currentQuestion = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);
-                if (question != currentQuestion)
-                {
-                    Voted = false;
-                    question = currentQuestion;
-                }
-            }
+        }
+        public Student() {
+
         }
 
         public Student(string pin)
@@ -34,22 +28,27 @@ namespace iVoteMVC.Models
             iVoteContext db = new iVoteContext();
 
             List<Session> sessions = db.Sessions.Where(s => s.PIN.Equals(pin) && s.published == true).ToList();
+            var sessionQuery = from s in db.Sessions
+                               select s;
+            sessionQuery = sessionQuery.Where(s => s.PIN.Equals(pin) && s.published == true);
 
-            if (sessions.Count != 0)
+            if (sessions.Count > 0)
             {
                 this.session = sessions.ElementAt(0);
-                this.question = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);
             }
+            else
+                throw new InvalidOperationException("No session found. size : " + sessions.Count() );
+
         }
 
         public bool Vote(int index)
         {
             //Question question = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);
 
-            if (index < 0 || index > this.question.NoOfAnswers - 1)
+            if (index < 0 || index > this.currentQuestion.NoOfAnswers - 1)
                 return false;
 
-            Answer answer = question.Answers.ToList().ElementAt(index);
+            Answer answer = currentQuestion.Answers.ToList().ElementAt(index);
             answer.voteCount++;
             Voted = true;
             return true;

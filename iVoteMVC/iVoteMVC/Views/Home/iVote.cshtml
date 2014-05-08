@@ -1,0 +1,25 @@
+﻿@model iVoteMVC.Models.Student
+
+@{
+    ViewBag.Title = "iVote";
+}
+
+
+
+<h2>iVote</h2>
+<h3>PIN: @Html.ViewBag.pin</h3>
+<h4>
+    StudentID: @Html.DisplayFor(model => model.ID) <br />
+    @Html.DisplayNameFor(model => model.session.name): @Html.DisplayFor(model => model.session.name) <br />
+    @Html.DisplayNameFor(model => model.session.NoOfQuestions): @Html.DisplayFor(model => model.session.NoOfQuestions) <br />
+    <br />
+    @Html.DisplayFor(model => model.currentQuestion.text) <br />
+    <hr />
+    @foreach (var answer in Model.currentQuestion.Answers)
+    {
+        @Html.DisplayFor(model => answer.text) <br />
+    }
+    
+</h4>
+
+
