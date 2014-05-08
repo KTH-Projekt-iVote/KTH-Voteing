@@ -48,7 +48,7 @@ namespace iVoteMVC.DAL
             context.SaveChanges();
 
             var answers = new List<Answer>{
-                new Answer{QuestionID=1, text="answer1.1.1", voteCount=7},
+                new Answer{QuestionID=1, text="answer1.1.1", voteCount=0},
                 new Answer{QuestionID=1, text="answer1.1.2", voteCount=2},
 
                 new Answer{QuestionID=1, text="answer1.1.3", voteCount=4},
@@ -65,8 +65,15 @@ namespace iVoteMVC.DAL
             };
 
             answers.ForEach(s => context.Answers.Add(s));
-
             context.SaveChanges();
+
+            //var students = new List<Student>{
+            //    new Student{ID=1, Voted=false, session=context.Sessions.Find(1)},
+            //    new Student{ID=2, Voted=false, session=context.Sessions.Find(2)}
+            //};
+
+            //students.ForEach(s => context.Students.Add(s));
+            //context.SaveChanges();
         }
     }
 }

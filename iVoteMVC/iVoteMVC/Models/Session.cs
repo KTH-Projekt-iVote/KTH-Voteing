@@ -49,6 +49,11 @@ namespace iVoteMVC.Models
 
         public virtual ICollection<Question> Questions { get; set; }
 
+
+        /**
+         * Methods
+        **/
+
         public Session()
         {
             CurrentQuestionIndex = 0;

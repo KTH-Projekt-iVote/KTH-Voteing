@@ -56,12 +56,15 @@ namespace iVoteMVC.Controllers
 
             if (session.published)
             {
-                Random random = new Random();
                 string pin = "";
-                for (int i = 0; i < 4; i++)
-                    pin += random.Next(0, 10);
+                while(!unique(pin)){
+                    Random random = new Random();
+                    pin = "";
+                    for (int i = 0; i < 4; i++)
+                        pin += random.Next(0, 10);
 
-                session.PIN = pin;
+                    session.PIN = pin;
+                }
             }
 
             if (ModelState.IsValid)
@@ -72,6 +75,25 @@ namespace iVoteMVC.Controllers
             }
 
             return View(session);
+        }
+
+        private bool unique(string pin)
+        {
+
+            if (String.IsNullOrEmpty(pin))
+                return false;
+
+            var pinQuery = from s in db.Sessions
+                           select s.PIN;
+
+            List<string> pins = pinQuery.ToList();
+            
+            foreach(string s in pins){
+                if (s.Equals(pin))
+                    return false;
+            }
+
+            return true;
         }
 
         // GET: /Session/Edit/5
@@ -94,19 +116,22 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int teacherID, [Bind(Include="ID,TeacherID,name,description,published")] Session session)
+        public ActionResult Edit(int teacherID, [Bind(Include="ID,TeacherID,name,description,published,PIN")] Session session)
         {
 
             session.TeacherID = teacherID;
             session.dateModifed = System.DateTime.Now;
             session.dateCreated = System.DateTime.Now;
 
-            if (session.published)
+            if (session.published && !String.IsNullOrEmpty(session.PIN))
+                throw new InvalidOperationException("PIN : " + session.PIN);
+
+            if (session.published && String.IsNullOrEmpty(session.PIN))
             {
                 Random random = new Random();
                 string pin = "";
                 for (int i = 0; i < 4; i++)
-                    pin += "" + random.Next(0,10);
+                    pin += "" + random.Next(0, 10);
                 session.PIN = pin;
             }
 
