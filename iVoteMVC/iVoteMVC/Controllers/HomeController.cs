@@ -36,21 +36,63 @@ namespace iVoteMVC.Controllers
             return View();
         }
 
-        public ActionResult iVote(string pin)
+        public ActionResult iVote(int? id, string pin, string message)
         {
 
             @ViewBag.pin = pin;
-                
-            Student student = new Student(pin);
-            student.Voted = false;
 
-            if (ModelState.IsValid)
+            //Student student = db.Students.Find(id);
+            Student student = null;
+
+            List<Student> students = db.Students.Where(s => s.ip.Equals(Request.UserHostAddress)).ToList();
+            if (students.Count() > 0)
+                student = students.ElementAt(0);
+            
+
+            if (student == null)
             {
-                db.Students.Add(student);
-                db.SaveChanges();
+                student = new Student(pin);
+                student.Voted = false;
+                student.ip = Request.UserHostAddress;
+                
+                if (ModelState.IsValid)
+                {
+                    db.Students.Add(student);
+                    db.SaveChanges();
+                }
+            }
+ 
+            return View(student);
+        }
+
+        public ActionResult Vote(int id, int vote, string ip)
+        {
+
+            Student student = db.Students.Find(id);
+
+            if(student.Voted)
+                return RedirectToAction("iVote", new { id = student.ID, pin = student.pin });
+
+            if (!String.IsNullOrEmpty(student.ip))
+                if (!student.ip.Equals(ip))
+                    throw new InvalidOperationException("Only one vote allowed.");
+  
+            if (vote >= 0 && vote < student.currentQuestion.NoOfAnswers && !student.Voted){
+                Answer answer = student.currentQuestion.Answers.ToList().ElementAt(vote);
+                answer.voteCount++;
+                if (ModelState.IsValid)
+                {
+                    db.Entry(answer).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    student.Voted = true;
+                    student.ip = ip;
+                    db.Entry(student).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
 
-            return View(student);
+            return RedirectToAction("iVote", new { id = student.ID, pin = student.pin });
         }
 
         protected override void Dispose(bool disposing)

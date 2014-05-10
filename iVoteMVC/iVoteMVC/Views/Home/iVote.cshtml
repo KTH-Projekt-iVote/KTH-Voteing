@@ -11,18 +11,53 @@
 
 StudentID: @Html.DisplayFor(model => model.ID) <br />
 @Html.DisplayNameFor(model => model.session.name): @Html.DisplayFor(model => model.session.name) <br />
-@Html.DisplayNameFor(model => model.session.NoOfQuestions): @Html.DisplayFor(model => model.session.NoOfQuestions) <br />
+@Html.DisplayNameFor(model => model.session.NoOfQuestions): @Html.DisplayFor(model => model.session.NoOfQuestions) <br /><br />
+@Request.UserHostAddress;
 <hr />
-<h4>@Html.DisplayFor(model => model.currentQuestion.text)</h4> <br />
 
-<form>
-    @{var i = 0;}
-    @foreach (var answer in Model.currentQuestion.Answers){
-        <input type="radio" name="Answer" value=@i> @Html.DisplayFor(model => answer.text) <br /> 
-        i++;
+@if(!Model.Voted){
+    <h4>@Html.DisplayFor(model => model.currentQuestion.text)</h4> <br />
+
+
+        var i = 0;
+        foreach (var answer in Model.currentQuestion.Answers)
+        {
+            <input type="button" value=@Html.DisplayFor(model => answer.text) onclick="location.href='@Url.Action("Vote", "Home", new { id = Model.ID, vote = @i, ip = @Request.UserHostAddress })'" />
+            <br /><br />
+            i++;
+        }
+
+        <br />
+        
+}
+else{
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        @foreach(var item in Model.currentQuestion.Answers)
+        {
+            <text>
+            data.addRow(['@item.text',@item.voteCount])
+            </text>
+        }
+
+        var options = {
+            title: '@Model.currentQuestion.text',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
     }
+    </script>
+    
     <br />
-    <input type="submit" value="Vote" />
-</form>
-
-
+    Votes: @Html.DisplayFor(model => model.currentQuestion.NoOfVotes);
+}
