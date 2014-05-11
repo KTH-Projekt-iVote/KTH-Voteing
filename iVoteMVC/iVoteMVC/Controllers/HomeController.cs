@@ -36,7 +36,18 @@ namespace iVoteMVC.Controllers
             return View();
         }
 
-        public ActionResult iVote(int? id, string pin, string message)
+        public ActionResult JoinVote()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult JoinVote(FormCollection form)
+        {
+            return RedirectToAction("iVote", "Home", new { pin = form["pin"] });
+        }
+
+        public ActionResult iVote(string pin, string message)
         {
 
             @ViewBag.pin = pin;
@@ -52,7 +63,6 @@ namespace iVoteMVC.Controllers
             if (student == null)
             {
                 student = new Student(pin);
-                student.Voted = false;
                 student.ip = Request.UserHostAddress;
                 
                 if (ModelState.IsValid)
@@ -65,34 +75,61 @@ namespace iVoteMVC.Controllers
             return View(student);
         }
 
-        public ActionResult Vote(int id, int vote, string ip)
+        public ActionResult Vote(int vote)
         {
 
-            Student student = db.Students.Find(id);
+            Student student = db.Students.Where(s => s.ip.Equals(Request.UserHostAddress)).ToList().ElementAt(0);
 
-            if(student.Voted)
-                return RedirectToAction("iVote", new { id = student.ID, pin = student.pin });
+            String message = "";
+            if (student.Voted)
+                message = "Already voted.";
 
-            if (!String.IsNullOrEmpty(student.ip))
-                if (!student.ip.Equals(ip))
-                    throw new InvalidOperationException("Only one vote allowed.");
-  
-            if (vote >= 0 && vote < student.currentQuestion.NoOfAnswers && !student.Voted){
+            if (vote >= 0 && vote < student.currentQuestion.NoOfAnswers && !student.Voted)
+            {
                 Answer answer = student.currentQuestion.Answers.ToList().ElementAt(vote);
                 answer.voteCount++;
-                if (ModelState.IsValid)
-                {
-                    db.Entry(answer).State = EntityState.Modified;
-                    db.SaveChanges();
 
-                    student.Voted = true;
-                    student.ip = ip;
-                    db.Entry(student).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
+                 if (ModelState.IsValid)
+                 {
+                     db.Entry(answer).State = EntityState.Modified;
+                     db.SaveChanges();
+
+                     //student.Voted = true;
+                     db.Entry(student).State = EntityState.Modified;
+                     db.SaveChanges();
+                 }
+                 else
+                 {
+                     message = "Unable to vote.";
+                 }
             }
+                
 
-            return RedirectToAction("iVote", new { id = student.ID, pin = student.pin });
+            //Student student = db.Students.Find(id);
+
+            //if(student.Voted)
+            //    return RedirectToAction("iVote", new { id = student.ID, pin = student.pin });
+
+            //if (!String.IsNullOrEmpty(student.ip))
+            //    if (!student.ip.Equals(ip))
+            //        throw new InvalidOperationException("Only one vote allowed.");
+  
+            //if (vote >= 0 && vote < student.currentQuestion.NoOfAnswers && !student.Voted){
+            //    Answer answer = student.currentQuestion.Answers.ToList().ElementAt(vote);
+            //    answer.voteCount++;
+            //    if (ModelState.IsValid)
+            //    {
+            //        db.Entry(answer).State = EntityState.Modified;
+            //        db.SaveChanges();
+
+            //        student.Voted = true;
+            //        student.ip = ip;
+            //        db.Entry(student).State = EntityState.Modified;
+            //        db.SaveChanges();
+            //    }
+            //}
+
+            return RedirectToAction("iVote", new { pin = student.pin, message = message });
         }
 
         protected override void Dispose(bool disposing)

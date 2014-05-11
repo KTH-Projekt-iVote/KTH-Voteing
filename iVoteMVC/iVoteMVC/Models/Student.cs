@@ -45,6 +45,7 @@ namespace iVoteMVC.Models
         public Student(string pin)
         {
             this.pin = pin;
+            this.Voted = false;
         }
 
         //public bool Vote(int index)

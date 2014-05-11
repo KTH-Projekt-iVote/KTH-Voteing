@@ -13,6 +13,7 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
 @Html.DisplayNameFor(model => model.session.name): @Html.DisplayFor(model => model.session.name) <br />
 @Html.DisplayNameFor(model => model.session.NoOfQuestions): @Html.DisplayFor(model => model.session.NoOfQuestions) <br /><br />
 @Request.UserHostAddress;
+
 <hr />
 
 @if(!Model.Voted){
@@ -22,7 +23,7 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
         var i = 0;
         foreach (var answer in Model.currentQuestion.Answers)
         {
-            <input type="button" value=@Html.DisplayFor(model => answer.text) onclick="location.href='@Url.Action("Vote", "Home", new { id = Model.ID, vote = @i, ip = @Request.UserHostAddress })'" />
+            <input type="button" value=@Html.DisplayFor(model => answer.text) onclick="location.href='@Url.Action("Vote", "Home", new { vote = @i })'" />
             <br /><br />
             i++;
         }
@@ -30,7 +31,7 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
         <br />
         
 }
-else{
+else if(Model.Voted){
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
     google.load("visualization", "1", { packages: ["corechart"] });
