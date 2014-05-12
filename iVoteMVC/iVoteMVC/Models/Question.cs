@@ -28,6 +28,19 @@ namespace iVoteMVC.Models
             }
         }
 
+        public int NoOfVotes
+        {
+            get
+            {
+                int count = 0;
+                foreach (Answer a in Answers)
+                {
+                    count += a.voteCount;
+                }
+                return count;
+            }
+        }
+
         public virtual ICollection<Answer> Answers { get; set; }
 
     }

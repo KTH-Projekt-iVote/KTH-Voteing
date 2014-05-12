@@ -33,46 +33,34 @@ namespace iVoteMVC.Models
             }
         }
 
+        public string ip { get; set; }
+
         /**
          * Methods
          * 
          **/
 
+        public Student() { }
+
         public Student(string pin)
         {
             this.pin = pin;
+            this.Voted = false;
         }
 
-        //public Student(string pin)
+        //public bool Vote(int index)
         //{
-        //    iVoteContext db = new iVoteContext();
+        //    //Question question = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);
 
-        //    List<Session> sessions = db.Sessions.Where(s => s.PIN.Equals(pin) && s.published == true).ToList();
-        //    var sessionQuery = from s in db.Sessions
-        //                       select s;
-        //    sessionQuery = sessionQuery.Where(s => s.PIN.Equals(pin) && s.published == true);
+        //    if (index < 0 || index > this.currentQuestion.NoOfAnswers - 1)
+        //        return false;
 
-        //    if (sessions.Count > 0)
-        //    {
-        //        this.session = sessions.ElementAt(0);
-        //    }
-        //    else
-        //        throw new InvalidOperationException("No session found. size : " + sessions.Count() );
+        //    Answer answer = currentQuestion.Answers.ToList().ElementAt(index);
+        //    answer.voteCount++;
 
+        //    Voted = true;
+        //    return true;
         //}
-
-        public bool Vote(int index)
-        {
-            //Question question = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);
-
-            if (index < 0 || index > this.currentQuestion.NoOfAnswers - 1)
-                return false;
-
-            Answer answer = currentQuestion.Answers.ToList().ElementAt(index);
-            answer.voteCount++;
-            Voted = true;
-            return true;
-        }
 
     }
 }

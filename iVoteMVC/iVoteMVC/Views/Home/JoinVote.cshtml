@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "JoinVote";
+}
+
+<h2>JoinVote</h2>
+
+@using (Html.BeginForm("JoinVote", "Home", FormMethod.Post))
+{
+    <p>
+        <input type="text" class="text" id="pin" name="pin" placeholder="Enter PIN" />
+        <input type="submit" class="submit" value="Join" />
+    </p>
+}
