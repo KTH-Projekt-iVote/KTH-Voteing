@@ -251,6 +251,7 @@
     <Content Include="Views\Answer\Index.cshtml" />
     <Content Include="Views\Home\iVote.cshtml" />
     <Content Include="Views\Home\JoinVote.cshtml" />
+    <Content Include="Views\Session\VoteControll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

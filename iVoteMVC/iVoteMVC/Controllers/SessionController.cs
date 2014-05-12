@@ -170,6 +170,24 @@ namespace iVoteMVC.Controllers
             return RedirectToAction("Details/" + session.TeacherID, "Teacher");
         }
 
+
+        public ActionResult VoteControll(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            
+            session.published = true;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(session).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            //this.HttpContext.Response.AddHeader("refresh", "7");
+
+            return View(session);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

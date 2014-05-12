@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
-using iVoteMVC.Models;
 
 using Microsoft.AspNet.Identity;
 namespace iVoteMVC.Controllers
