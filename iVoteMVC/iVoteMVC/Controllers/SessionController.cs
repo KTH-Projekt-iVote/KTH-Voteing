@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
-
+using Microsoft.AspNet.Identity;
 namespace iVoteMVC.Controllers
 {
     public class SessionController : Controller
@@ -29,11 +29,17 @@ namespace iVoteMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session session = db.Sessions.Find(id);
+            Teacher teacher = db.Teachers.Find(session.TeacherID);
             if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(session);
+            if (User.Identity.GetUserName().Equals(teacher.name))
+            {
+                return View(session);
+            }
+            else
+                return RedirectToAction("index", "home");
         }
 
         // GET: /Session/Create
@@ -104,11 +110,17 @@ namespace iVoteMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session session = db.Sessions.Find(id);
+            Teacher teacher = db.Teachers.Find(session.TeacherID);
             if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(session);
+            if (User.Identity.GetUserName().Equals(teacher.name))
+            {
+                return View(session);
+            }
+            else
+                return RedirectToAction("index", "home");
         }
 
         // POST: /Session/Edit/5
@@ -152,11 +164,17 @@ namespace iVoteMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session session = db.Sessions.Find(id);
+            Teacher teacher = db.Teachers.Find(session.TeacherID);
             if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(session);
+            if (User.Identity.GetUserName().Equals(teacher.name))
+            {
+                return View(session);
+            }
+            else
+                return RedirectToAction("index", "home");
         }
 
         // POST: /Session/Delete/5
