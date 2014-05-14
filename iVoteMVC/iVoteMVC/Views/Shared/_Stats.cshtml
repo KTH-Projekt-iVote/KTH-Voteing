@@ -1,0 +1,39 @@
+﻿@model iVoteMVC.Models.Session
+
+
+@{
+    var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
+}
+
+<body onload="drawChart()">
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            @foreach(var item in currentQuestion.Answers)
+            {
+                <text>
+            data.addRow(['@item.text',@item.voteCount])
+            </text>
+            }
+
+            var options = {
+                title: '@currentQuestion.text',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chart.draw(data, options);
+            //var t = setTimeout(function () { drawChart() }, 2000);
+        }
+    </script>
+</body>

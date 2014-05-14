@@ -8,7 +8,7 @@
     var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
 }
 
-<body onload="drawChart()">
+<body onload="function()">
 
     <h2>VoteControll</h2>
     <hr />
@@ -76,40 +76,24 @@
 
     <hr />
 
-    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    @*<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
     @*<div>setInterval(function () { drawChart() }, 1000)</div>*@
 
+    @{
+        Html.RenderAction("StatsPartial", new { id = Model.ID });  
+        
+        
+        //Html.RenderAction("StatsPartial", "Home", new { id = Model.ID });    
+    }
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load("visualization", "1", { packages: ["corechart"] });
-        google.setOnLoadCallback(drawChart);
+<script type="text/javascript">
+    
+    //Lös skiten
 
-        function drawChart() {
-            @{
-                currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
-            }
-            var data = new google.visualization.DataTable();
-
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            @foreach(var item in currentQuestion.Answers)
-            {
-                <text>
-                data.addRow(['@item.text',@item.voteCount])
-                </text>
-            }
+</script>
 
 
-            var options = {
-                title: '@currentQuestion.text',
-                is3D: true,
-            };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-            chart.draw(data, options);
-            var t = setTimeout(function () { drawChart() }, 2000);
-        }
-    </script>
+<div id="Stats" />
 
 </body>

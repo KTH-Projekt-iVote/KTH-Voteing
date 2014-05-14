@@ -92,6 +92,12 @@ namespace iVoteMVC.Controllers
             return View(student);
         }
 
+        public PartialViewResult StatsPartial(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            return PartialView("_Stats", session);
+        }
+
         public ActionResult Vote(int vote)
         {
 

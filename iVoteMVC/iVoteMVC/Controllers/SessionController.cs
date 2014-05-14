@@ -205,6 +205,12 @@ namespace iVoteMVC.Controllers
 
             return View(session);
         }
+        
+        public PartialViewResult StatsPartial(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            return PartialView("_Stats", session);
+        }
 
         protected override void Dispose(bool disposing)
         {
