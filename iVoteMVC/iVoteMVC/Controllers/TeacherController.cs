@@ -18,7 +18,7 @@ namespace iVoteMVC.Controllers
        //private iVoteContext db = new iVoteContext();
 
        private iVoteContext db = new iVoteContext();
-
+       
 
 
         public ActionResult Index()
@@ -33,35 +33,35 @@ namespace iVoteMVC.Controllers
         // GET: /Teacher/Details/5
         public ActionResult Details(int? id, string currentFilter, string searchTerm, string sortOrder)
         {
-          
+
             
-                @ViewBag.currentSort = sortOrder;
-                @ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                @ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                @ViewBag.sortOrder = sortOrder;
-                @ViewBag.currentFilter = searchTerm;
+            @ViewBag.currentSort = sortOrder;
+            @ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            @ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            @ViewBag.sortOrder = sortOrder;
+            @ViewBag.currentFilter = searchTerm;
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-                if (!String.IsNullOrEmpty(searchTerm))
-                    @ViewBag.searchTerm = searchTerm;
-                else
-                    @ViewBag.searchTerm = "";
+            if (!String.IsNullOrEmpty(searchTerm))
+                @ViewBag.searchTerm = searchTerm;
+            else
+                @ViewBag.searchTerm = "";
 
-                Teacher teacher = db.Teachers.Find(id);
+            Teacher teacher = db.Teachers.Find(id);
 
-                if (teacher == null)
-                {
-                    return HttpNotFound();
-                }
+            if (teacher == null)
+            {
+                return HttpNotFound();
+            }
 
                 if (User.Identity.GetUserName().Equals(teacher.name))
                 {
-                    return View(teacher);
-                }
+            return View(teacher);
+        }
                 else
                     return RedirectToAction("index","home");
 
@@ -112,8 +112,8 @@ namespace iVoteMVC.Controllers
             }
             if (User.Identity.GetUserName().Equals(teacher.name))
             {
-                return View(teacher);
-            }
+            return View(teacher);
+        }
             else
                 return RedirectToAction("index", "home");
         }
@@ -149,8 +149,8 @@ namespace iVoteMVC.Controllers
 
             if (User.Identity.GetUserName().Equals(teacher.name))
             {
-                return View(teacher);
-            }
+            return View(teacher);
+        }
             else
                 return RedirectToAction("index", "home");
         }

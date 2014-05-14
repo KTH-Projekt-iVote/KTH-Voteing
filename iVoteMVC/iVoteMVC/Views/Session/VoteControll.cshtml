@@ -1,0 +1,115 @@
+﻿@model iVoteMVC.Models.Session
+
+@{
+    ViewBag.Title = "VoteControll";
+}
+
+@{
+    var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
+}
+
+<body onload="drawChart()">
+
+    <h2>VoteControll</h2>
+    <hr />
+    <h3>@Html.DisplayNameFor(model => model.PIN): @Html.DisplayFor(model => model.PIN)</h3>
+    <input type="button" value="Next Question" onclick="Model.nextQuestion()" />
+
+    @*@{
+        var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
+    }*@
+
+    <div>
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+            <br />
+            <dt>
+                @Html.DisplayNameFor(model => model.published)
+            </dt>
+
+            <dd>
+                @*@Html.DisplayFor(model => model.published)*@
+                @if (Model.published == true) { Write("Yes, PIN: " + Model.PIN); }
+                else { Write("No"); }
+
+            </dd>
+            <br />
+            <dt>@Html.DisplayFor(item => currentQuestion.text)</dt>
+            <br />
+            <dd>
+                <table class="table">
+                    <tr>
+                        @*<th>Question</th>*@
+                        <th>@Html.DisplayNameFor(item => currentQuestion.Answers)</th>
+                        <th>VoteCount</th>
+                    </tr>
+                    @foreach (var answer in currentQuestion.Answers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(item => answer.text)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(item => answer.voteCount)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        </dl>
+    </div>
+
+    <hr />
+
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    @*<div>setInterval(function () { drawChart() }, 1000)</div>*@
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            @{
+                currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
+            }
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            @foreach(var item in currentQuestion.Answers)
+            {
+                <text>
+                data.addRow(['@item.text',@item.voteCount])
+                </text>
+            }
+
+
+            var options = {
+                title: '@currentQuestion.text',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chart.draw(data, options);
+            var t = setTimeout(function () { drawChart() }, 2000);
+        }
+    </script>
+
+</body>

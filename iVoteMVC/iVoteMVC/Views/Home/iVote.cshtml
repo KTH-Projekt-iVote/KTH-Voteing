@@ -31,9 +31,16 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
         <br />
         
 }
-else if(Model.Voted){
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
+else { 
+    
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    <br />
+    Votes: @Html.DisplayFor(model => model.currentQuestion.NoOfVotes);
+}
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawChart);
     function drawChart() {
@@ -57,8 +64,4 @@ else if(Model.Voted){
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
     }
-    </script>
-    
-    <br />
-    Votes: @Html.DisplayFor(model => model.currentQuestion.NoOfVotes);
-}
+</script>
