@@ -8,16 +8,13 @@
     var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
 }
 
-<body onload="function()">
+<body onload="refresh()">
 
     <h2>VoteControll</h2>
     <hr />
     <h3>@Html.DisplayNameFor(model => model.PIN): @Html.DisplayFor(model => model.PIN)</h3>
     <input type="button" value="Next Question" onclick="Model.nextQuestion()" />
-
-    @*@{
-        var currentQuestion = Model.Questions.ToList().ElementAt(Model.CurrentQuestionIndex);
-    }*@
+    <input type="button" value="Clear Students" onclick="location.href='@Url.Action("ClearStudents", new { SessionID = @Model.ID })'" />
 
     <div>
         <dl class="dl-horizontal">
@@ -76,24 +73,28 @@
 
     <hr />
 
-    @*<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-    @*<div>setInterval(function () { drawChart() }, 1000)</div>*@
-
     @{
-        Html.RenderAction("StatsPartial", new { id = Model.ID });  
-        
-        
-        //Html.RenderAction("StatsPartial", "Home", new { id = Model.ID });    
+        Html.RenderAction("StatsPartial", new { id = Model.ID });     
     }
+    @*<div id="Stats"></div>*@
+ 
+    <script type="text/javascript">
+        function refresh(){
+            var t = setTimeout(function () { $.ajax({
+                url: "StatsPartial",
+                data: { "id": '@Model.ID' },
+                type: "POST",
+                cache: false,
+                success: function (data) {
+                    $("#Stats").innerHTML = data;
+                }}); }, 2000);
+        }
+    </script>
 
-<script type="text/javascript">
-    
-    //Lös skiten
-
-</script>
-
-
-
-<div id="Stats" />
+    <script type="text/javascript">
+        function ClearStudents() {
+            
+        }
+    </script>
 
 </body>

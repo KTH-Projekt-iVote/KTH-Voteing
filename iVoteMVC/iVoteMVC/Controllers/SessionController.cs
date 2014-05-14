@@ -212,6 +212,20 @@ namespace iVoteMVC.Controllers
             return PartialView("_Stats", session);
         }
 
+        public void ClearStudents(int SessionID)
+        {
+            List<Student> students = db.Students.ToList();
+            if(students.Count > 0)
+                foreach (Student s in students)
+                {
+                    if (s.session.ID == SessionID)
+                    {
+                        db.Students.Remove(s);
+                        db.SaveChanges();
+                    }
+                }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

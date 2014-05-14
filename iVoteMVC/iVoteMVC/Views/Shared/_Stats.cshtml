@@ -22,8 +22,8 @@
             @foreach(var item in currentQuestion.Answers)
             {
                 <text>
-            data.addRow(['@item.text',@item.voteCount])
-            </text>
+                    data.addRow(['@item.text',@item.voteCount])
+                </text>
             }
 
             var options = {
@@ -33,6 +33,7 @@
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
             chart.draw(data, options);
+
             //var t = setTimeout(function () { drawChart() }, 2000);
         }
     </script>
