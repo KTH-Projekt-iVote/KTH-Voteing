@@ -18,7 +18,16 @@ namespace iVoteMVC.Controllers
         // GET: /Session/
         public ActionResult Index()
         {
-            return View(db.Sessions.ToList());
+            string username = User.Identity.GetUserName();
+            List<Teacher> teachers = db.Teachers.Where(t => t.username.Equals(username)).ToList();
+            List<Session> sessions = new List<Session>();
+
+            if (teachers.Count != 0)
+            {
+                sessions = db.Sessions.Where(s => s.TeacherID == teachers.ElementAt(0).ID).ToList();
+            }
+            
+            return View(sessions);
         }
 
         // GET: /Session/Details/5
@@ -212,18 +221,52 @@ namespace iVoteMVC.Controllers
             return PartialView("_Stats", session);
         }
 
-        public void ClearStudents(int SessionID)
+        public ActionResult FinishSession(int id)
         {
             List<Student> students = db.Students.ToList();
-            if(students.Count > 0)
+
+            if (students.Count > 0)
+            {
                 foreach (Student s in students)
                 {
-                    if (s.session.ID == SessionID)
+                    if (s.session.ID == id)
                     {
                         db.Students.Remove(s);
-                        db.SaveChanges();
+                        //db.SaveChanges();
                     }
                 }
+                db.SaveChanges();
+            }
+
+            Session session = db.Sessions.Find(id);
+            session.published = false;
+            session.PIN = null;
+            session.CurrentQuestionIndex = 0;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(session).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("VoteControll", new { id = id });
+        }
+
+        public ActionResult NextQuestion(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            
+            if(session.CurrentQuestionIndex < session.NoOfQuestions-1)
+                session.CurrentQuestionIndex++;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(session).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("VoteControll", new { id = id });
+
         }
 
         protected override void Dispose(bool disposing)

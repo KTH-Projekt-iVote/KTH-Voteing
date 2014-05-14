@@ -13,8 +13,8 @@
     <h2>VoteControll</h2>
     <hr />
     <h3>@Html.DisplayNameFor(model => model.PIN): @Html.DisplayFor(model => model.PIN)</h3>
-    <input type="button" value="Next Question" onclick="Model.nextQuestion()" />
-    <input type="button" value="Clear Students" onclick="location.href='@Url.Action("ClearStudents", new { SessionID = @Model.ID })'" />
+    <input type="button" value="Next Question" onclick="location.href='@Url.Action("NextQuestion", new { id = @Model.ID })'" />
+    <input type="button" value="Finish Session" onclick="location.href='@Url.Action("FinishSession", new { id = @Model.ID })'" />
 
     <div>
         <dl class="dl-horizontal">
