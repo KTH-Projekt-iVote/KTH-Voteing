@@ -80,8 +80,10 @@
     @*<div>setInterval(function () { drawChart() }, 1000)</div>*@
 
     @{
+        
         Html.RenderAction("StatsPartial", new { id = Model.ID });  
         
+       
         
         //Html.RenderAction("StatsPartial", "Home", new { id = Model.ID });    
     }

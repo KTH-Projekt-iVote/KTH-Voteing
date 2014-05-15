@@ -94,9 +94,10 @@ namespace iVoteMVC.Controllers
 
             List<string> pins = pinQuery.ToList();
             
-            foreach(string s in pins){
-                if (s.Equals(pin))
-                    return false;
+            if(pins != null)
+                foreach(string s in pins){
+                    if (s.Equals(pin))
+                        return false;
             }
 
             return true;

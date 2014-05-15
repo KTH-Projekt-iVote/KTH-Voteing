@@ -33,10 +33,11 @@ namespace iVoteMVC.Models
             get
             {
                 int count = 0;
-                foreach (Answer a in Answers)
-                {
-                    count += a.voteCount;
-                }
+                if(NoOfAnswers > 0)
+                    foreach (Answer a in Answers)
+                    {
+                        count += a.voteCount;
+                    }   
                 return count;
             }
         }
