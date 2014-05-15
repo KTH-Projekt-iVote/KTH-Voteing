@@ -74,7 +74,7 @@
     <hr />
 
     @{
-        Html.RenderAction("StatsPartial", new { id = Model.ID });     
+        Html.RenderAction("StatsPartial", new { QuestionID = Model.Questions.ElementAt(Model.CurrentQuestionIndex).ID });     
     }
     @*<div id="Stats"></div>*@
  

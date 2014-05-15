@@ -57,6 +57,9 @@
             <br />
             @Html.ActionLink("Add Question", "Create", "Question", new { SessionID = Model.ID }, null)
         </dd>
+        <dd>
+            @Html.ActionLink("Publish", "PublishSession", new { id = Model.ID })
+        </dd>
         <br />
         <dt>@Html.DisplayNameFor(model => model.Questions)</dt>
         <dd>

@@ -20,7 +20,7 @@ namespace iVoteMVC.Models
                 if (sessions.Count > 0)
                     return sessions.ElementAt(0);
                 else
-                    throw new InvalidOperationException("No session found.");
+                    return null;
             }
         }
 

@@ -32,7 +32,7 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
         
 }
 else { 
-    Html.RenderPartial("_Stats", Model.session.ID);
+    Html.RenderPartial("_Stats", Model.currentQuestion.ID);
     
     <br />
     Votes: @Html.DisplayFor(model => model.currentQuestion.NoOfVotes);

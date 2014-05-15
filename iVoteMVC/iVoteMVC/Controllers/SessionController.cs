@@ -108,25 +108,14 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,name,description,published")] Session session)
+        public ActionResult Create([Bind(Include="ID,name,description")] Session session)
         {
                
             session.TeacherID = findTeacher().ID;
             session.dateCreated = System.DateTime.Now;
             session.dateModifed = System.DateTime.Now;
 
-            if (session.published)
-            {
-                string pin = "";
-                while(!unique(pin)){
-                    Random random = new Random();
-                    pin = "";
-                    for (int i = 0; i < 4; i++)
-                        pin += random.Next(0, 10);
-
-                    session.PIN = pin;
-                }
-            }
+            session.published = false;
 
             if (ModelState.IsValid)
             {
@@ -138,8 +127,27 @@ namespace iVoteMVC.Controllers
             return View(session);
         }
 
+        private string GeneratePIN()
+        {
+
+            string pin = "";
+            Random random = new Random();
+
+            while (!unique(pin))
+            {
+                pin = "";
+                for (int i = 0; i < 4; i++)
+                    pin += random.Next(0, 10);
+            }
+
+            return pin;
+        }
+
         private bool unique(string pin)
         {
+
+            if (pin.Equals("") || pin == null)
+                return false;
 
             if (String.IsNullOrEmpty(pin))
                 return false;
@@ -147,14 +155,23 @@ namespace iVoteMVC.Controllers
             var pinQuery = from s in db.Sessions
                            select s.PIN;
 
-            List<string> pins = pinQuery.ToList();
-            
-            foreach(string s in pins){
-                if (s.Equals(pin))
-                    return false;
+            List<Session> sessions = db.Sessions.Where(s => s.PIN.Equals(pin)).ToList();
+
+            if (sessions.Count > 0)
+            {
+                return false;
             }
 
             return true;
+
+            //throw new NotImplementedException("count : " + sessions.Count + "\nPIN : " + pin);
+
+            //if (sessions.Count > 0 && sessions != null)
+            //    foreach (string s in pins)
+            //    {
+            //        if (s.Equals(pin))
+            //            return false;
+            //    }
         }
 
         // GET: /Session/Edit/5
@@ -198,21 +215,21 @@ namespace iVoteMVC.Controllers
             //    return RedirectToAction("Edit", new { id = session.ID });
             //}
 
-            session.TeacherID = teacherID;
+            session.TeacherID = findTeacher().ID;
             session.dateModifed = System.DateTime.Now;
             session.dateCreated = System.DateTime.Now;
 
             if (session.published && !String.IsNullOrEmpty(session.PIN))
                 throw new InvalidOperationException("PIN : " + session.PIN);
 
-            if (session.published && String.IsNullOrEmpty(session.PIN))
-            {
-                Random random = new Random();
-                string pin = "";
-                for (int i = 0; i < 4; i++)
-                    pin += "" + random.Next(0, 10);
-                session.PIN = pin;
-            }
+            //if (session.published && String.IsNullOrEmpty(session.PIN))
+            //{
+            //    Random random = new Random();
+            //    string pin = "";
+            //    for (int i = 0; i < 4; i++)
+            //        pin += "" + random.Next(0, 10);
+            //    session.PIN = pin;
+            //}
 
             if (ModelState.IsValid)
             {
@@ -273,17 +290,20 @@ namespace iVoteMVC.Controllers
             return View(session);
         }
         
-        public PartialViewResult StatsPartial(int id)
+        public PartialViewResult StatsPartial(int QuestionID)
         {
-            Session session = db.Sessions.Find(id);
-            return PartialView("_Stats", session);
+            //Session session = db.Sessions.Find(id);
+            Question question = db.Questions.Find(QuestionID);
+            return PartialView("_Stats", question);
         }
 
         public ActionResult FinishSession(int id)
         {
             List<Student> students = db.Students.ToList();
 
-            if (students.Count > 0)
+            //throw new NotImplementedException("Count : " + students.Count);
+
+            if (students.Count() > 0 && students != null)
             {
                 foreach (Student s in students)
                 {
@@ -307,7 +327,7 @@ namespace iVoteMVC.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("VoteControll", new { id = id });
+            return RedirectToAction("Result", new { id = id });
         }
 
         public ActionResult NextQuestion(int id)
@@ -325,6 +345,34 @@ namespace iVoteMVC.Controllers
 
             return RedirectToAction("VoteControll", new { id = id });
 
+        }
+
+        public ActionResult PublishSession(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            
+            if (session != null)
+            {
+                session.published = true;
+                session.PIN = GeneratePIN();
+                session.CurrentQuestionIndex = 0;
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(session).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("VoteControll", new { id = session.ID });
+            }
+
+            return RedirectToAction("Details", new { id = session.ID });
+        }
+
+        public ActionResult Result(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            return View(session);
         }
 
         protected override void Dispose(bool disposing)

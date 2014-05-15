@@ -1,0 +1,49 @@
+﻿@model iVoteMVC.Models.Session
+
+<h2>Result</h2>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+        <br />
+        <dt>
+            Finished
+        </dt>
+        <dd>
+            @DateTime.Now
+        </dd>
+    </dl>
+</div>
+
+<hr />
+
+@{
+    foreach (var question in Model.Questions)
+    {
+        if (question.NoOfVotes > 0) 
+        {
+            Html.RenderAction("StatsPartial", new { QuestionID = question.ID });
+            <hr />
+        }
+                
+            
+     }
+}
+
+

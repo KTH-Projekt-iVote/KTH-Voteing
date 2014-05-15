@@ -58,6 +58,9 @@ namespace iVoteMVC.Controllers
         public ActionResult iVote(string pin, string message)
         {
 
+            if (String.IsNullOrEmpty(pin))
+                return RedirectToAction("JoinVote");
+
             @ViewBag.pin = pin;
             @ViewBag.message = message;
 
@@ -82,6 +85,10 @@ namespace iVoteMVC.Controllers
                     db.SaveChanges();
                 }
             }
+
+            Session session = student.session;
+            if (!session.published || session == null)
+                return RedirectToAction("JoinVote");
 
             if (student.Voted)
             {
