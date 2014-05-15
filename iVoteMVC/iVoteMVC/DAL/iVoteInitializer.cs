@@ -10,7 +10,7 @@ namespace iVoteMVC.DAL
 
  
 
-    public class iVoteInitializer : System.Data.Entity.DropCreateDatabaseAlways<iVoteContext>
+    public class iVoteInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<iVoteContext>
     {
         protected override void Seed(iVoteContext context)
         {

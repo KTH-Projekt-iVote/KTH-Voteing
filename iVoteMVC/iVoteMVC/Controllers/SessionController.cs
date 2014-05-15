@@ -15,16 +15,29 @@ namespace iVoteMVC.Controllers
     {
         private iVoteContext db = new iVoteContext();
 
-        // GET: /Session/
-        public ActionResult Index()
+        private Teacher findTeacher()
         {
             string username = User.Identity.GetUserName();
             List<Teacher> teachers = db.Teachers.Where(t => t.username.Equals(username)).ToList();
+
+            if (teachers.Count > 0)
+            {
+                return teachers.ElementAt(0);
+                
+            }
+
+            return null;
+        }
+
+        // GET: /Session/
+        public ActionResult Index()
+        {
+            Teacher teacher = findTeacher();
             List<Session> sessions = new List<Session>();
 
-            if (teachers.Count != 0)
+            if (teacher != null)
             {
-                sessions = db.Sessions.Where(s => s.TeacherID == teachers.ElementAt(0).ID).ToList();
+                sessions = db.Sessions.Where(s => s.TeacherID == teacher.ID).ToList();
             }
             
             return View(sessions);
@@ -52,9 +65,8 @@ namespace iVoteMVC.Controllers
         }
 
         // GET: /Session/Create
-        public ActionResult Create(int id)
+        public ActionResult Create()
         {
-            @ViewBag.teacherID = id;
             return View();
         }
 
@@ -63,9 +75,10 @@ namespace iVoteMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id, [Bind(Include="ID,name,description,published")] Session session)
+        public ActionResult Create([Bind(Include="ID,name,description,published")] Session session)
         {
-            session.TeacherID = id;
+               
+            session.TeacherID = findTeacher().ID;
             session.dateCreated = System.DateTime.Now;
             session.dateModifed = System.DateTime.Now;
 
@@ -86,7 +99,7 @@ namespace iVoteMVC.Controllers
             {
                 db.Sessions.Add(session);
                 db.SaveChanges();
-                return RedirectToAction("Details/" + session.TeacherID, "Teacher");
+                return RedirectToAction("Details", new { id = session.ID });
             }
 
             return View(session);
@@ -140,6 +153,18 @@ namespace iVoteMVC.Controllers
         public ActionResult Edit(int teacherID, [Bind(Include="ID,TeacherID,name,description,published,PIN")] Session session)
         {
 
+            //string username = User.Identity.GetUserName();
+            //List<Teacher> teachers = db.Teachers.Where(t => t.username.Equals(username)).ToList();
+
+            //if (teachers.Count > 0)
+            //{
+            //    session.TeacherID = teachers.ElementAt(0).ID;
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Edit", new { id = session.ID });
+            //}
+
             session.TeacherID = teacherID;
             session.dateModifed = System.DateTime.Now;
             session.dateCreated = System.DateTime.Now;
@@ -160,7 +185,7 @@ namespace iVoteMVC.Controllers
             {
                 db.Entry(session).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details/" + session.TeacherID, "Teacher");
+                return RedirectToAction("Details", new {id = session.ID });
             }
             return View(session);
         }
