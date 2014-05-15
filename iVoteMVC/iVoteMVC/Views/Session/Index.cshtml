@@ -7,22 +7,31 @@
 <h2>Index</h2>
 
 <p>
+    @using (Html.BeginForm())
+    {
+    <p>
+        @Html.TextBox("SearchString")
+        <input type="submit" value="Filter" />
+    </p>
+    }
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
-
+            @*@Html.DisplayNameFor(model => model.name)*@
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortOrderParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dateCreated)
+            @*@Html.DisplayNameFor(model => model.dateCreated)*@
+            @Html.ActionLink("Created", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dateModifed)
+            @*@Html.DisplayNameFor(model => model.dateModifed)*@
+            @Html.ActionLink("Modified", "Index", new { sortOrder = ViewBag.DateModSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.published)
@@ -33,7 +42,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.name)
+            @*@Html.DisplayFor(modelItem => item.name)*@
+            @Html.ActionLink(item.name, "Details", new { id = item.ID })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.description)

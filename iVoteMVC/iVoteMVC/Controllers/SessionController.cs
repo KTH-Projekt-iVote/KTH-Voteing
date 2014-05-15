@@ -23,15 +23,20 @@ namespace iVoteMVC.Controllers
             if (teachers.Count > 0)
             {
                 return teachers.ElementAt(0);
-                
             }
 
             return null;
         }
 
         // GET: /Session/
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string sortOrder)
         {
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.DateModSortParm = sortOrder == "DateMod" ? "dateMod_desc" : "DateMod";
+
+
             Teacher teacher = findTeacher();
             List<Session> sessions = new List<Session>();
 
@@ -39,6 +44,34 @@ namespace iVoteMVC.Controllers
             {
                 sessions = db.Sessions.Where(s => s.TeacherID == teacher.ID).ToList();
             }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                sessions = sessions.Where(s => s.name.Contains(searchString) || s.description.Contains(searchString)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    sessions = sessions.OrderByDescending(s => s.name).ToList();
+                    break;
+                case "Date":
+                    sessions = sessions.OrderBy(s => s.dateCreated).ToList();
+                    break;
+                case "date_desc":
+                    sessions = sessions.OrderByDescending(s => s.dateCreated).ToList();
+                    break;
+                case "dateMod":
+                    sessions = sessions.OrderBy(s => s.dateModifed).ToList();
+                    break;
+                case "dateMod_desc":
+                    sessions = sessions.OrderByDescending(s => s.dateModifed).ToList();
+                    break;
+                default:
+                    sessions = sessions.OrderBy(s => s.name).ToList();
+                    break;
+            }
+
             
             return View(sessions);
         }
@@ -142,7 +175,7 @@ namespace iVoteMVC.Controllers
                 return View(session);
             }
             else
-                return RedirectToAction("index", "home");
+                return RedirectToAction("Login", "Account");
         }
 
         // POST: /Session/Edit/5
@@ -208,7 +241,7 @@ namespace iVoteMVC.Controllers
                 return View(session);
             }
             else
-                return RedirectToAction("index", "home");
+                return RedirectToAction("Login", "Account");
         }
 
         // POST: /Session/Delete/5
@@ -219,7 +252,7 @@ namespace iVoteMVC.Controllers
             Session session = db.Sessions.Find(id);
             db.Sessions.Remove(session);
             db.SaveChanges();
-            return RedirectToAction("Details/" + session.TeacherID, "Teacher");
+            return RedirectToAction("Index");
         }
 
 
