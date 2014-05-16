@@ -48,6 +48,14 @@ namespace iVoteMVC.Models
             this.Voted = false;
         }
 
+        public bool JoinedSession(int SessionID)
+        {
+            if (session == null)
+                return false;
+
+            return this.session.ID == SessionID;
+        }
+
         //public bool Vote(int index)
         //{
         //    //Question question = session.Questions.ToList().ElementAt(session.CurrentQuestionIndex);

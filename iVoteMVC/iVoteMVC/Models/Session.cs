@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using iVoteMVC.DAL;
 
 namespace iVoteMVC.Models
 {
@@ -50,7 +51,6 @@ namespace iVoteMVC.Models
         }
 
         public virtual ICollection<Question> Questions { get; set; }
-
 
         /**
          * Methods

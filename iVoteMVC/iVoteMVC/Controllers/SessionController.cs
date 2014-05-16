@@ -11,6 +11,7 @@ using iVoteMVC.DAL;
 using Microsoft.AspNet.Identity;
 namespace iVoteMVC.Controllers
 {
+    [Authorize]
     public class SessionController : Controller
     {
         private iVoteContext db = new iVoteContext();
@@ -31,6 +32,9 @@ namespace iVoteMVC.Controllers
         // GET: /Session/
         public ActionResult Index(string searchString, string sortOrder)
         {
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
 
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -203,17 +207,6 @@ namespace iVoteMVC.Controllers
         public ActionResult Edit(int teacherID, [Bind(Include="ID,TeacherID,name,description,published,PIN")] Session session)
         {
 
-            //string username = User.Identity.GetUserName();
-            //List<Teacher> teachers = db.Teachers.Where(t => t.username.Equals(username)).ToList();
-
-            //if (teachers.Count > 0)
-            //{
-            //    session.TeacherID = teachers.ElementAt(0).ID;
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Edit", new { id = session.ID });
-            //}
 
             session.TeacherID = findTeacher().ID;
             session.dateModifed = System.DateTime.Now;
@@ -221,15 +214,6 @@ namespace iVoteMVC.Controllers
 
             if (session.published && !String.IsNullOrEmpty(session.PIN))
                 throw new InvalidOperationException("PIN : " + session.PIN);
-
-            //if (session.published && String.IsNullOrEmpty(session.PIN))
-            //{
-            //    Random random = new Random();
-            //    string pin = "";
-            //    for (int i = 0; i < 4; i++)
-            //        pin += "" + random.Next(0, 10);
-            //    session.PIN = pin;
-            //}
 
             if (ModelState.IsValid)
             {
@@ -275,6 +259,10 @@ namespace iVoteMVC.Controllers
 
         public ActionResult VoteControll(int id)
         {
+
+            if (findTeacher().ID != id)
+                return RedirectToAction("Login", "Account");
+
             Session session = db.Sessions.Find(id);
             
             session.published = true;
@@ -299,9 +287,11 @@ namespace iVoteMVC.Controllers
 
         public ActionResult FinishSession(int id)
         {
-            List<Student> students = db.Students.ToList();
 
-            //throw new NotImplementedException("Count : " + students.Count);
+            if (findTeacher().ID != id)
+                return RedirectToAction("Login", "Account");
+
+            List<Student> students = db.Students.ToList();
 
             if (students.Count() > 0 && students != null)
             {
@@ -332,6 +322,9 @@ namespace iVoteMVC.Controllers
 
         public ActionResult NextQuestion(int id)
         {
+            if (findTeacher().ID != id)
+                return RedirectToAction("Login", "Account");
+
             Session session = db.Sessions.Find(id);
             
             if(session.CurrentQuestionIndex < session.NoOfQuestions-1)
@@ -349,6 +342,9 @@ namespace iVoteMVC.Controllers
 
         public ActionResult PublishSession(int id)
         {
+            if (findTeacher().ID != id)
+                return RedirectToAction("Login", "Account");
+
             Session session = db.Sessions.Find(id);
             
             if (session != null)
@@ -371,6 +367,9 @@ namespace iVoteMVC.Controllers
 
         public ActionResult Result(int id)
         {
+            if (findTeacher().ID != id)
+                return RedirectToAction("Login", "Account");
+
             Session session = db.Sessions.Find(id);
             return View(session);
         }

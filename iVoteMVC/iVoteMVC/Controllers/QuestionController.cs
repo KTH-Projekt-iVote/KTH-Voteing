@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
+using Microsoft.AspNet.Identity;
 
 namespace iVoteMVC.Controllers
 {
+    [Authorize]
     public class QuestionController : Controller
     {
         private iVoteContext db = new iVoteContext();
@@ -24,11 +26,18 @@ namespace iVoteMVC.Controllers
         // GET: /Question/Details/5
         public ActionResult Details(int? id)
         {
+            Question question = db.Questions.Find(id);
+            
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
+            
             if (question == null)
             {
                 return HttpNotFound();
@@ -67,6 +76,11 @@ namespace iVoteMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+
             Question question = db.Questions.Find(id);
             if (question == null)
             {
@@ -96,10 +110,16 @@ namespace iVoteMVC.Controllers
         // GET: /Question/Delete/5
         public ActionResult Delete(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+
             Question question = db.Questions.Find(id);
             if (question == null)
             {

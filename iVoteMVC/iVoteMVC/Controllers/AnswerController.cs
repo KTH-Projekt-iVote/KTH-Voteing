@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
+using Microsoft.AspNet.Identity;
 
 namespace iVoteMVC.Controllers
 {
+    [Authorize]
     public class AnswerController : Controller
     {
         private iVoteContext db = new iVoteContext();
@@ -28,6 +30,11 @@ namespace iVoteMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(db.Answers.Find(id).QuestionID).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+
             Answer answer = db.Answers.Find(id);
             if (answer == null)
             {
@@ -71,6 +78,11 @@ namespace iVoteMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(db.Answers.Find(id).QuestionID).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+
             Answer answer = db.Answers.Find(id);
             if (answer == null)
             {
@@ -106,6 +118,11 @@ namespace iVoteMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Teacher teacher = db.Teachers.Find(db.Sessions.Find(db.Answers.Find(id).QuestionID).TeacherID);
+            if (User.Identity.GetUserName().Equals(teacher.username))
+                return RedirectToAction("Login", "Account");
+
             Answer answer = db.Answers.Find(id);
             if (answer == null)
             {

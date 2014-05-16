@@ -8,11 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using iVoteMVC.Models;
 using iVoteMVC.DAL;
-
-
 using Microsoft.AspNet.Identity;
+
 namespace iVoteMVC.Controllers
 {
+    [Authorize]
     public class TeacherController : Controller
     {
        //private iVoteContext db = new iVoteContext();
@@ -20,14 +20,15 @@ namespace iVoteMVC.Controllers
        private iVoteContext db = new iVoteContext();
        
 
-
         public ActionResult Index()
         {
 
+            if (!User.Identity.IsAuthenticated)
+                RedirectToAction("Login", "Account");
+
             string name = User.Identity.GetUserName();
             return View(db.Teachers.Where(t => t.username.Equals(name)));
-                //return View(db.Teachers.Find(name));
-            //return View(db.Teachers.ToList());
+
         }
 
         // GET: /Teacher/Details/5
