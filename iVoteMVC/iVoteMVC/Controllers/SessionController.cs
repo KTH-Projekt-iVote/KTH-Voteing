@@ -306,7 +306,8 @@ namespace iVoteMVC.Controllers
                 db.SaveChanges();
             }
 
-            
+            int index = session.CurrentQuestionIndex;
+
             session.published = false;
             session.PIN = null;
             session.CurrentQuestionIndex = 0;
@@ -317,7 +318,28 @@ namespace iVoteMVC.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Result", new { id = id });
+            //clearNcopy(id);
+
+            return RedirectToAction("Result", new { id = id, index = index });
+        }
+
+        public ActionResult Clear(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            
+            if(session.Questions != null)
+            foreach (Question q in session.Questions)
+            {
+                if(q.Answers != null)
+                foreach (Answer a in q.Answers)
+                {
+                    a.voteCount = 0;
+                    db.Entry(a).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Details", new { id = id });
         }
 
         public ActionResult NextQuestion(int id)
@@ -382,14 +404,55 @@ namespace iVoteMVC.Controllers
             return RedirectToAction("Details", new { id = session.ID });
         }
 
-        public ActionResult Result(int id)
+        public ActionResult Result(int id, int index)
         {
+            @ViewBag.index = index;
             Session session = db.Sessions.Find(id);
 
             if (findTeacher().ID != session.TeacherID)
                 return RedirectToAction("Login", "Account");
 
             return View(session);
+        }
+
+        public void clearNcopy(int id)
+        {
+            Session session = db.Sessions.Find(id);
+            Session sessionCopy = new Session();
+
+            sessionCopy.TeacherID = session.TeacherID;
+            sessionCopy.name = session.name + " - " + DateTime.Now.ToString();
+            sessionCopy.CurrentQuestionIndex = session.CurrentQuestionIndex;
+            sessionCopy.dateCreated = session.dateCreated;
+            sessionCopy.dateModifed = session.dateModifed;
+            sessionCopy.description = session.description;
+            sessionCopy.PIN = null;
+            sessionCopy.published = false;
+
+            sessionCopy.Questions = new List<Question>(session.Questions);
+
+            foreach (Question q in session.Questions)
+            {
+                foreach (Answer a in q.Answers)
+                {
+                    a.voteCount = 0;
+                  db.Entry(a).State = EntityState.Modified;
+                  db.SaveChanges();
+                }
+            }
+
+      
+
+
+            if (ModelState.IsValid)
+            {
+                db.Sessions.Add(sessionCopy);
+                db.SaveChanges();
+
+                db.Entry(session).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

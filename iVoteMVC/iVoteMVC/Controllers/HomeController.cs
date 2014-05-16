@@ -92,15 +92,6 @@ namespace iVoteMVC.Controllers
             else if (!session.published)
                 return RedirectToAction("JoinVote");
 
-            //try
-            //{
-            //    Session session = student.session;
-            //    if (!session.published || session == null)
-            //    {
-            //        return RedirectToAction("JoinVote");
-            //    }
-            //}
-
             if (student.Voted)
             {
                 this.HttpContext.Response.AddHeader("refresh", "5");
@@ -108,12 +99,6 @@ namespace iVoteMVC.Controllers
             
  
             return View(student);
-        }
-
-        public PartialViewResult StatsPartial(int id)
-        {
-            Session session = db.Sessions.Find(id);
-            return PartialView("_Stats", session);
         }
 
         public ActionResult Vote(int vote)
@@ -135,7 +120,7 @@ namespace iVoteMVC.Controllers
                      db.Entry(answer).State = EntityState.Modified;
                      db.SaveChanges();
 
-                     //student.Voted = true;
+                     student.Voted = true;
                      db.Entry(student).State = EntityState.Modified;
                      db.SaveChanges();
                  }

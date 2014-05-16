@@ -44,12 +44,17 @@
 <hr />
 
 @{
+    int i = 0;
     foreach (var question in Model.Questions)
     {
         if (question.NoOfVotes > 0) 
         {
             Html.RenderAction("StatsPartial", new { QuestionID = question.ID });
             <hr />
+        }
+        if (i == @ViewBag.index)
+        {
+            break;
         }
                 
             

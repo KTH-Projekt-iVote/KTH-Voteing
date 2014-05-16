@@ -27,9 +27,10 @@ namespace iVoteMVC.Controllers
         public ActionResult Details(int? id)
         {
             Question question = db.Questions.Find(id);
-            
-            Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
-            if (User.Identity.GetUserName().Equals(teacher.username))
+            Session session = db.Sessions.Find(question.SessionID);
+            Teacher teacher = db.Teachers.Find(session.TeacherID);
+          //  Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
+            if (!User.Identity.GetUserName().Equals(teacher.username))
                 return RedirectToAction("Login", "Account");
             
 
@@ -78,7 +79,7 @@ namespace iVoteMVC.Controllers
             }
 
             Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
-            if (User.Identity.GetUserName().Equals(teacher.username))
+            if (!User.Identity.GetUserName().Equals(teacher.username))
                 return RedirectToAction("Login", "Account");
 
             Question question = db.Questions.Find(id);
@@ -117,7 +118,7 @@ namespace iVoteMVC.Controllers
             }
 
             Teacher teacher = db.Teachers.Find(db.Sessions.Find(id).TeacherID);
-            if (User.Identity.GetUserName().Equals(teacher.username))
+            if (!User.Identity.GetUserName().Equals(teacher.username))
                 return RedirectToAction("Login", "Account");
 
             Question question = db.Questions.Find(id);

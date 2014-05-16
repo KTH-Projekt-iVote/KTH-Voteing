@@ -58,6 +58,7 @@ namespace iVoteMVC.Models
             get
             {
                 int votes = 0;
+                if(Questions != null)
                 if (Questions.Count > 0)
                 {
                     foreach (Question q in Questions)

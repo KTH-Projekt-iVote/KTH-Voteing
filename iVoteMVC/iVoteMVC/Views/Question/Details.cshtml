@@ -59,39 +59,11 @@
 
 
 <p>
-    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    @{
+        Html.RenderAction("StatsPartial", "Session", new { QuestionID = @Model.ID });
+    }
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID, sessionID = Model.SessionID }) |
     @*@Html.ActionLink("Back to List", "Index") |*@
     @Html.ActionLink("Back to Session", "Details/" + Model.SessionID, "Session")
 </p>
-
-
-
-               
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-    google.load("visualization", "1", { packages: ["corechart"] });
-    google.setOnLoadCallback(drawChart);
-    function drawChart() {
-
-        var data = new google.visualization.DataTable();
-       
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        @foreach(var item in Model.Answers)
-        {
-            <text>
-            data.addRow(['@item.text',@item.voteCount])
-            </text>
-        }
-
-        var options = {
-            title: '@Model.text',
-            is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-    }
-</script>
 

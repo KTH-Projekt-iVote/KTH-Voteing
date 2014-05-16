@@ -59,6 +59,7 @@ namespace iVoteMVC.Controllers
         //public ActionResult Create([Bind(Include = "ID,QuestionID,voteCount,text")] Answer answer)
         {
             answer.QuestionID = id;
+            answer.voteCount = 0;
             if (ModelState.IsValid)
             {
                 db.Answers.Add(answer);
@@ -80,7 +81,7 @@ namespace iVoteMVC.Controllers
             }
 
             Teacher teacher = db.Teachers.Find(db.Sessions.Find(db.Answers.Find(id).QuestionID).TeacherID);
-            if (User.Identity.GetUserName().Equals(teacher.username))
+            if (!User.Identity.GetUserName().Equals(teacher.username))
                 return RedirectToAction("Login", "Account");
 
             Answer answer = db.Answers.Find(id);
@@ -120,7 +121,7 @@ namespace iVoteMVC.Controllers
             }
 
             Teacher teacher = db.Teachers.Find(db.Sessions.Find(db.Answers.Find(id).QuestionID).TeacherID);
-            if (User.Identity.GetUserName().Equals(teacher.username))
+            if (!User.Identity.GetUserName().Equals(teacher.username))
                 return RedirectToAction("Login", "Account");
 
             Answer answer = db.Answers.Find(id);
