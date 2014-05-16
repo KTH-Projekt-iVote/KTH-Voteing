@@ -87,12 +87,23 @@ namespace iVoteMVC.Controllers
             }
 
             Session session = student.session;
-            if (!session.published || session == null)
+            if (session == null)
                 return RedirectToAction("JoinVote");
+            else if (!session.published)
+                return RedirectToAction("JoinVote");
+
+            //try
+            //{
+            //    Session session = student.session;
+            //    if (!session.published || session == null)
+            //    {
+            //        return RedirectToAction("JoinVote");
+            //    }
+            //}
 
             if (student.Voted)
             {
-                //this.HttpContext.Response.AddHeader("refresh", "5");
+                this.HttpContext.Response.AddHeader("refresh", "5");
             }
             
  
@@ -134,7 +145,7 @@ namespace iVoteMVC.Controllers
                  }
             }
 
-            return RedirectToAction("iVote", new { message = message });
+            return RedirectToAction("iVote", new { pin = student.pin, message = message });
         }
 
         protected override void Dispose(bool disposing)

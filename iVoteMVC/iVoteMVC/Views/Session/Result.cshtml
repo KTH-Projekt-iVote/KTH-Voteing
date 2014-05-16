@@ -28,6 +28,16 @@
         <dd>
             @DateTime.Now
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NoofVotes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NoofVotes)
+        </dd>
+        <br />
+        <dd>
+            <input type="button" value="Print" onclick="window.print();">
+        </dd>
     </dl>
 </div>
 

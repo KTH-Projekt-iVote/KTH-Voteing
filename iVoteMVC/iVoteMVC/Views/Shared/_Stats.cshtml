@@ -8,7 +8,6 @@
 <body onload="drawChart()">
     <div id=@Model.ID style="width: 900px; height: 500px;"></div>
 
-
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });
@@ -22,7 +21,7 @@
             @foreach(var item in Model.Answers)
             {
                 <text>
-                    data.addRow(['@item.text - @item.voteCount',@item.voteCount])
+                    data.addRow(['@item.text (@item.voteCount votes)',@item.voteCount])
                 </text>
             }
 

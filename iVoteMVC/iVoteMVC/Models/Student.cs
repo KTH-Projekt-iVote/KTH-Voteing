@@ -25,11 +25,35 @@ namespace iVoteMVC.Models
         }
 
         public bool Voted { get; set; }
+        //public bool Voted
+        //{
+        //    get
+        //    {
+        //        Question question = session.Questions.ElementAt(session.CurrentQuestionIndex);
+        //        if (currentQuestion.Equals(question))
+        //            return privVoted;
+
+        //        return false;
+        //    }
+        //    set
+        //    {
+        //        privVoted = value;
+        //    }
+        //}
         public Question currentQuestion
         {
             get
             {
-                return session.Questions.ElementAt(session.CurrentQuestionIndex);
+
+                Question question = null;
+                try
+                {
+                    question = session.Questions.ElementAt(session.CurrentQuestionIndex);
+                }catch(NullReferenceException e){
+                    return null;
+                }
+                
+                return question;
             }
         }
 

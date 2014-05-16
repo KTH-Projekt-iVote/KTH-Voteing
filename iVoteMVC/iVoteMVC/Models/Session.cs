@@ -52,6 +52,23 @@ namespace iVoteMVC.Models
 
         public virtual ICollection<Question> Questions { get; set; }
 
+        [Display(Name="Total number of votes")]
+        public int NoofVotes
+        {
+            get
+            {
+                int votes = 0;
+                if (Questions.Count > 0)
+                {
+                    foreach (Question q in Questions)
+                    {
+                        votes += q.NoOfVotes;
+                    }
+                }
+                return votes;
+            }
+        }
+
         /**
          * Methods
         **/

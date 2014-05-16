@@ -259,12 +259,11 @@ namespace iVoteMVC.Controllers
 
         public ActionResult VoteControll(int id)
         {
+            Session session = db.Sessions.Find(id);
 
-            if (findTeacher().ID != id)
+            if (findTeacher().ID != session.TeacherID)
                 return RedirectToAction("Login", "Account");
 
-            Session session = db.Sessions.Find(id);
-            
             session.published = true;
 
             if (ModelState.IsValid)
@@ -287,13 +286,14 @@ namespace iVoteMVC.Controllers
 
         public ActionResult FinishSession(int id)
         {
+            Session session = db.Sessions.Find(id);
 
-            if (findTeacher().ID != id)
+            if (findTeacher().ID != session.TeacherID)
                 return RedirectToAction("Login", "Account");
 
             List<Student> students = db.Students.ToList();
 
-            if (students.Count() > 0 && students != null)
+            if (students.Count > 0 && students != null)
             {
                 foreach (Student s in students)
                 {
@@ -306,7 +306,7 @@ namespace iVoteMVC.Controllers
                 db.SaveChanges();
             }
 
-            Session session = db.Sessions.Find(id);
+            
             session.published = false;
             session.PIN = null;
             session.CurrentQuestionIndex = 0;
@@ -322,11 +322,12 @@ namespace iVoteMVC.Controllers
 
         public ActionResult NextQuestion(int id)
         {
-            if (findTeacher().ID != id)
-                return RedirectToAction("Login", "Account");
 
             Session session = db.Sessions.Find(id);
-            
+       
+            if (findTeacher().ID != session.TeacherID)
+                return RedirectToAction("Login", "Account");
+   
             if(session.CurrentQuestionIndex < session.NoOfQuestions-1)
                 session.CurrentQuestionIndex++;
 
@@ -336,17 +337,33 @@ namespace iVoteMVC.Controllers
                 db.SaveChanges();
             }
 
+            List<Student> students = db.Students.ToList();
+
+            if (students.Count > 0 && students != null)
+            {
+                foreach (Student s in students)
+                {
+                    if (s.session.ID == id)
+                    {
+                        s.Voted = false;
+                        //db.SaveChanges();
+                    }
+                }
+                db.SaveChanges();
+            }
+
             return RedirectToAction("VoteControll", new { id = id });
 
         }
 
         public ActionResult PublishSession(int id)
         {
-            if (findTeacher().ID != id)
-                return RedirectToAction("Login", "Account");
 
             Session session = db.Sessions.Find(id);
-            
+
+            if (findTeacher().ID != session.TeacherID)
+                return RedirectToAction("Login", "Account");
+
             if (session != null)
             {
                 session.published = true;
@@ -367,10 +384,11 @@ namespace iVoteMVC.Controllers
 
         public ActionResult Result(int id)
         {
-            if (findTeacher().ID != id)
+            Session session = db.Sessions.Find(id);
+
+            if (findTeacher().ID != session.TeacherID)
                 return RedirectToAction("Login", "Account");
 
-            Session session = db.Sessions.Find(id);
             return View(session);
         }
 

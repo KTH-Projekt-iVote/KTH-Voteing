@@ -12,7 +12,6 @@
 StudentID: @Html.DisplayFor(model => model.ID) <br />
 @Html.DisplayNameFor(model => model.session.name): @Html.DisplayFor(model => model.session.name) <br />
 @Html.DisplayNameFor(model => model.session.NoOfQuestions): @Html.DisplayFor(model => model.session.NoOfQuestions) <br /><br />
-@Request.UserHostAddress;
 
 <hr />
 
@@ -31,8 +30,8 @@ StudentID: @Html.DisplayFor(model => model.ID) <br />
         <br />
         
 }
-else { 
-    Html.RenderPartial("_Stats", Model.currentQuestion.ID);
+else {
+    Html.RenderAction("StatsPartial", "Session", new { QuestionID = Model.currentQuestion.ID });
     
     <br />
     Votes: @Html.DisplayFor(model => model.currentQuestion.NoOfVotes);
